@@ -13,11 +13,15 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+}
+
 dependencies {
-	testCompile group: 'org.jbehave', name: 'jbehave-core', version: '3.8'
-	testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
-	testCompile group: 'org.easytesting', name: 'fest-assert-core', version: '2.0M10'
-	testCompile group: 'org.testng', name: 'testng', version: '6.8.5'
+	testCompile 'org.jbehave:jbehave-core:3.8'
+	testCompile 'org.jbehave.site:jbehave-site-resources:3.1.1@zip'
+	testCompile 'org.mockito:mockito-all:1.9.5'
+	testCompile 'org.easytesting:fest-assert-core:2.0M10'
+	testCompile 'org.testng:testng:6.8.5'
 }
 
 test {

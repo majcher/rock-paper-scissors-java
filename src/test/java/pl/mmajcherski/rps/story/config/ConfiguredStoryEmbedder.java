@@ -8,6 +8,10 @@ import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
+import org.jbehave.core.steps.ParameterConverters;
+
+import pl.mmajcherski.rps.story.converter.EnumCaseInsensitiveConverter;
+import pl.mmajcherski.rps.story.converter.PlayerIdConverter;
 
 public class ConfiguredStoryEmbedder extends Embedder {
 	
@@ -21,6 +25,8 @@ public class ConfiguredStoryEmbedder extends Embedder {
 	public Configuration configuration() {
 		return new MostUsefulConfiguration()
 			.useStoryLoader(new LoadFromClasspath())
+			.useParameterConverters(new ParameterConverters().addConverters(
+					new PlayerIdConverter(), new EnumCaseInsensitiveConverter()))
 			.useStoryReporterBuilder(new StoryReporterBuilder()
 				.withFormats(Format.CONSOLE, Format.HTML_TEMPLATE)
 			);
