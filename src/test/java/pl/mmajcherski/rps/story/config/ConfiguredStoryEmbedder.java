@@ -10,7 +10,7 @@ import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
 import org.jbehave.core.steps.ParameterConverters;
 
-import pl.mmajcherski.rps.story.converter.EnumCaseInsensitiveConverter;
+import pl.mmajcherski.rps.story.converter.HandGestureConverter;
 import pl.mmajcherski.rps.story.converter.PlayerIdConverter;
 
 public class ConfiguredStoryEmbedder extends Embedder {
@@ -26,7 +26,7 @@ public class ConfiguredStoryEmbedder extends Embedder {
 		return new MostUsefulConfiguration()
 			.useStoryLoader(new LoadFromClasspath())
 			.useParameterConverters(new ParameterConverters().addConverters(
-					new PlayerIdConverter(), new EnumCaseInsensitiveConverter()))
+					new PlayerIdConverter(), new HandGestureConverter()))
 			.useStoryReporterBuilder(new StoryReporterBuilder()
 				.withFormats(Format.CONSOLE, Format.HTML_TEMPLATE)
 			);

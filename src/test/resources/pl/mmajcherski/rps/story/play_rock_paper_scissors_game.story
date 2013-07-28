@@ -11,10 +11,20 @@ Given a RPS game with 2 players: Mike and Peter
 When Mike shows Rock gesture
 And Peter shows Scissors gesture
 Then Mike wins the game
+And Peter looses the game
 
 Scenario: Play Paper vs. Scissors
 
 Given a RPS game with 2 players: Mike and Peter
 When Mike shows Paper gesture
 And Peter shows Scissors gesture
-Then Peter wins the game
+Then Mike looses the game
+And Peter wins the game
+
+Scenario: Play Paper vs. Rock
+
+Given a RPS game with 2 players: Mike and Peter
+When Mike shows Paper gesture
+And Peter shows Rock gesture
+Then Mike wins the game
+And Peter looses the game

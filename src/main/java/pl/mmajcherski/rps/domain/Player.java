@@ -8,7 +8,11 @@ public interface Player {
 
 	void join(Game game);
 
+	void readyToPlay();
+
 	void showGesture(HandGesture gesture);
+
+	HandGesture getGestureShown();
 
 	GamePlayStatus getGamePlayStatus();
 

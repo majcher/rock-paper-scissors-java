@@ -1,5 +1,7 @@
 package pl.mmajcherski.rps.domain.impl;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Objects;
 
 import pl.mmajcherski.rps.domain.Game;
@@ -10,8 +12,12 @@ import pl.mmajcherski.rps.domain.Player;
 public class HumanPlayer implements Player {
 	
 	private final PlayerId playerId;
+	private Game game;
+	private HandGesture gestureShown;
 	
 	private HumanPlayer(PlayerId playerId) {
+		requireNonNull(playerId, "Player must be given non-null ID");
+		
 		this.playerId = playerId;
 	}
 	
@@ -26,18 +32,41 @@ public class HumanPlayer implements Player {
 
 	@Override
 	public void join(Game game) {
-		// TODO Auto-generated method stub
+		requireNonNull(game, "Cannot join game which is null");
+		
+		this.game = game;
+		
+		game.accept(this);
+	}
+	
+	@Override
+	public void readyToPlay() {
+		requireJoinedGame();
+		
+		game.onPlayerReadyToPlay(playerId);
 	}
 
 	@Override
 	public void showGesture(HandGesture gesture) {
-		// TODO Auto-generated method stub
+		gestureShown = gesture;
 	}
-
+	
+	@Override
+	public HandGesture getGestureShown() {
+		return gestureShown;
+	}
+	
 	@Override
 	public GamePlayStatus getGamePlayStatus() {
-		// TODO Auto-generated method stub
-		return null;
+		requireJoinedGame();
+		
+		return game.getGamePlayStatusFor(playerId);
+	}
+	
+	private void requireJoinedGame() {
+		if (game == null) {
+			throw new IllegalStateException("Player must first join a game");
+		}
 	}
 
 	@Override

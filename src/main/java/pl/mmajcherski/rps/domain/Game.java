@@ -8,4 +8,8 @@ public interface Game {
 
 	Player getPlayerById(PlayerId playerName);
 
+	void onPlayerReadyToPlay(PlayerId playerId);
+
+	GamePlayStatus getGamePlayStatusFor(PlayerId playerId);
+
 }

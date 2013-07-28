@@ -1,11 +1,16 @@
 package pl.mmajcherski.rps.domain.impl;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import pl.mmajcherski.rps.domain.GamePlayStatus;
 import pl.mmajcherski.rps.domain.Player;
+import pl.mmajcherski.rps.domain.impl.gesture.Rock;
+import pl.mmajcherski.rps.domain.impl.gesture.Scissors;
 
 public class RockPaperScissorsGameTest {
 
@@ -71,6 +76,30 @@ public class RockPaperScissorsGameTest {
 		
 		// when
 		game.getPlayerById(playerId);
+	}
+	
+	@Test
+	public void shouldCompareGesturesBetweenPlayers() {
+		// given
+		PlayerId playerId1 = new PlayerId("1");
+		Player player1 = mock(Player.class);
+		when(player1.getId()).thenReturn(playerId1);
+		game.accept(player1);
+		
+		PlayerId playerId2 = new PlayerId("2");
+		Player player2 = mock(Player.class);
+		when(player2.getId()).thenReturn(playerId2);
+		game.accept(player2);
+		
+		when(player1.getGestureShown()).thenReturn(Rock.INSTANCE);
+		when(player2.getGestureShown()).thenReturn(Scissors.INSTANCE);
+		
+		// when
+		GamePlayStatus gamePlayStatus = game.getGamePlayStatusFor(playerId1);
+		
+		// then
+		GamePlayStatus expectedStatus = Rock.INSTANCE.compareToGesture(Scissors.INSTANCE);
+		assertThat(gamePlayStatus).isEqualsToByComparingFields(expectedStatus);
 	}
 	
 }

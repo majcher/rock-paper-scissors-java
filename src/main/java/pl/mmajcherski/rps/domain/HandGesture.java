@@ -1,9 +1,7 @@
 package pl.mmajcherski.rps.domain;
 
-public enum HandGesture {
-	
-	ROCK,
-	PAPER,
-	SCISSORS
+public interface HandGesture {
 
+	GamePlayStatus compareToGesture(HandGesture gesture);
+	
 }

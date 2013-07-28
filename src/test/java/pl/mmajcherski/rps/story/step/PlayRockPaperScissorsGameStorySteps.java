@@ -33,19 +33,22 @@ public class PlayRockPaperScissorsGameStorySteps {
 	@When("$playerId shows $gestureName gesture")
 	public void playerShowsGesture(PlayerId playerId, HandGesture gesture) {
 		Player activePlayer = game.getPlayerById(playerId);
+		activePlayer.readyToPlay();
 		activePlayer.showGesture(gesture);
 	}
 	
 	@Then("$playerId wins the game")
 	public void playerWinsTheGame(PlayerId playerId) {
 		Player activePlayer = game.getPlayerById(playerId);
-		Assertions.assertThat(activePlayer.getGamePlayStatus()).isEqualTo(GamePlayStatus.WIN);
+		GamePlayStatus gamePlayStatus = activePlayer.getGamePlayStatus();
+		Assertions.assertThat(gamePlayStatus).isEqualTo(GamePlayStatus.WIN);
 	}
 	
-	@Then("$playerId loses the game")
+	@Then("$playerId looses the game")
 	public void playerLosesTheGame(PlayerId playerId) {
 		Player activePlayer = game.getPlayerById(playerId);
-		Assertions.assertThat(activePlayer.getGamePlayStatus()).isEqualTo(GamePlayStatus.LOOSE);
+		GamePlayStatus gamePlayStatus = activePlayer.getGamePlayStatus();
+		Assertions.assertThat(gamePlayStatus).isEqualTo(GamePlayStatus.LOOSE);
 	}
 	
 }
