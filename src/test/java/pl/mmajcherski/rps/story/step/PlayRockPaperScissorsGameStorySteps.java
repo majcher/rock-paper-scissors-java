@@ -13,7 +13,7 @@ import pl.mmajcherski.rps.impl.HumanPlayer;
 import pl.mmajcherski.rps.impl.PlayerId;
 import pl.mmajcherski.rps.impl.RockPaperScissorsGame;
 
-public class RockPaperScissorsGameSteps {
+public class PlayRockPaperScissorsGameStorySteps {
 
 	private Game game;
 	private Player player;
