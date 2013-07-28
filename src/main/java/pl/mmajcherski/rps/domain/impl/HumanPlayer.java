@@ -1,11 +1,11 @@
-package pl.mmajcherski.rps.impl;
+package pl.mmajcherski.rps.domain.impl;
 
 import java.util.Objects;
 
-import pl.mmajcherski.rps.Game;
-import pl.mmajcherski.rps.GamePlayStatus;
-import pl.mmajcherski.rps.HandGesture;
-import pl.mmajcherski.rps.Player;
+import pl.mmajcherski.rps.domain.Game;
+import pl.mmajcherski.rps.domain.GamePlayStatus;
+import pl.mmajcherski.rps.domain.HandGesture;
+import pl.mmajcherski.rps.domain.Player;
 
 public class HumanPlayer implements Player {
 	

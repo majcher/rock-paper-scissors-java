@@ -1,7 +1,7 @@
-package pl.mmajcherski.rps.impl;
+package pl.mmajcherski.rps.domain.impl;
 
-import pl.mmajcherski.rps.Game;
-import pl.mmajcherski.rps.Player;
+import pl.mmajcherski.rps.domain.Game;
+import pl.mmajcherski.rps.domain.Player;
 
 public class RockPaperScissorsGame implements Game {
 

@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps;
+package pl.mmajcherski.rps.domain;
 
 public enum GamePlayStatus {
 	

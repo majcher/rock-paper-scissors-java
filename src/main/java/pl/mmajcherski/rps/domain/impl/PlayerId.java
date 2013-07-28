@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps.impl;
+package pl.mmajcherski.rps.domain.impl;
 
 import java.util.Objects;
 

@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 
 import org.jbehave.core.steps.ParameterConverters.ParameterConverter;
 
-import pl.mmajcherski.rps.impl.PlayerId;
+import pl.mmajcherski.rps.domain.impl.PlayerId;
 
 public class PlayerIdConverter implements ParameterConverter {
 

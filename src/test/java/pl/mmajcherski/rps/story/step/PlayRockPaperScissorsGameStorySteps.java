@@ -5,13 +5,13 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
-import pl.mmajcherski.rps.Game;
-import pl.mmajcherski.rps.GamePlayStatus;
-import pl.mmajcherski.rps.HandGesture;
-import pl.mmajcherski.rps.Player;
-import pl.mmajcherski.rps.impl.HumanPlayer;
-import pl.mmajcherski.rps.impl.PlayerId;
-import pl.mmajcherski.rps.impl.RockPaperScissorsGame;
+import pl.mmajcherski.rps.domain.Game;
+import pl.mmajcherski.rps.domain.GamePlayStatus;
+import pl.mmajcherski.rps.domain.HandGesture;
+import pl.mmajcherski.rps.domain.Player;
+import pl.mmajcherski.rps.domain.impl.HumanPlayer;
+import pl.mmajcherski.rps.domain.impl.PlayerId;
+import pl.mmajcherski.rps.domain.impl.RockPaperScissorsGame;
 
 public class PlayRockPaperScissorsGameStorySteps {
 

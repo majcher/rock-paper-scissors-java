@@ -1,6 +1,6 @@
-package pl.mmajcherski.rps;
+package pl.mmajcherski.rps.domain;
 
-import pl.mmajcherski.rps.impl.PlayerId;
+import pl.mmajcherski.rps.domain.impl.PlayerId;
 
 public interface Game {
 
