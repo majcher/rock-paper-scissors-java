@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class PlayerId {
 
-	private String value;
+	private final String value;
 	
 	public PlayerId(String value) {
 		this.value = value;

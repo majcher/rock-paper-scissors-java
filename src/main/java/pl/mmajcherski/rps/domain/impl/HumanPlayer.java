@@ -9,7 +9,7 @@ import pl.mmajcherski.rps.domain.Player;
 
 public class HumanPlayer implements Player {
 	
-	private PlayerId playerId;
+	private final PlayerId playerId;
 	
 	private HumanPlayer(PlayerId playerId) {
 		this.playerId = playerId;
@@ -21,7 +21,7 @@ public class HumanPlayer implements Player {
 
 	@Override
 	public PlayerId getId() {
-		return null;
+		return playerId;
 	}
 
 	@Override
