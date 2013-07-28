@@ -40,3 +40,4 @@ sourceSets {
 		output.resourcesDir = output.classesDir
 	}
 }
+
