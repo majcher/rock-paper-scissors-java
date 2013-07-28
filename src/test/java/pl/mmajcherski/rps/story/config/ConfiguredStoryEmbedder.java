@@ -3,6 +3,7 @@ package pl.mmajcherski.rps.story.config;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.embedder.Embedder;
+import org.jbehave.core.failures.FailingUponPendingStep;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
@@ -27,6 +28,7 @@ public class ConfiguredStoryEmbedder extends Embedder {
 			.useStoryLoader(new LoadFromClasspath())
 			.useParameterConverters(new ParameterConverters().addConverters(
 					new PlayerIdConverter(), new HandGestureConverter()))
+			.usePendingStepStrategy(new FailingUponPendingStep())
 			.useStoryReporterBuilder(new StoryReporterBuilder()
 				.withFormats(Format.CONSOLE, Format.HTML_TEMPLATE)
 			);

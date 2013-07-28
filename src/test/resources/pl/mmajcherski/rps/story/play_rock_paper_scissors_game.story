@@ -28,3 +28,15 @@ When Mike shows Paper gesture
 And Peter shows Rock gesture
 Then Mike wins the game
 And Peter looses the game
+
+Scenario: Play the same gestures
+
+Given a RPS game with 2 players: Mike and Peter
+When both players shows <gesture> gesture
+Then there is a tie
+
+Examples:
+|gesture|
+|Paper|
+|Rock|
+|Scissors|
