@@ -51,7 +51,7 @@ public class RockPaperScissorsGameTest {
 	}
 	
 	@Test
-	public void shouldReturnPlayerById() {
+	public void shouldReturnExistingPlayerById() {
 		// given
 		PlayerId playerId = new PlayerId("1");
 		Player player = HumanPlayer.withId(playerId);
