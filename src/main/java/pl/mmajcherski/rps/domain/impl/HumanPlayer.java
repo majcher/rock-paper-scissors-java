@@ -10,12 +10,12 @@ import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.HandGesture;
 import pl.mmajcherski.rps.domain.Player;
 
-public class HumanPlayer implements Player, GestureGameController, GameEventsListener {
+public final class HumanPlayer implements Player, GestureGameController, GameEventsListener {
 	
 	private final PlayerId playerId;
 	private PlayerGestureControllable game;
 	
-	private HumanPlayer(PlayerId playerId) {
+	private HumanPlayer(final PlayerId playerId) {
 		requireNonNull(playerId, "Player must be given non-null ID");
 		
 		this.playerId = playerId;

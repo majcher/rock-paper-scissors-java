@@ -4,14 +4,15 @@ import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.Player;
 import pl.mmajcherski.rps.domain.PlayerGestureControllable;
 
-public class ComputerPlayer implements Player, GameEventsListener {
+public final class ComputerPlayer implements Player, GameEventsListener {
 
-	private ComputerPlayer() {}
-	
+	private ComputerPlayer() {
+	}
+
 	public static ComputerPlayer withId(PlayerId playerId) {
 		return null;
 	}
-	
+
 	@Override
 	public PlayerId getId() {
 		return null;

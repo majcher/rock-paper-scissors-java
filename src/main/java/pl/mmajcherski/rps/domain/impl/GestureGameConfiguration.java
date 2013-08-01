@@ -9,7 +9,7 @@ import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.GestureGameController;
 import pl.mmajcherski.rps.domain.Players;
 
-public class GestureGameConfiguration {
+public final class GestureGameConfiguration {
 
 	private static final int PLAYERS_LIMIT = 2;
 	
@@ -19,7 +19,7 @@ public class GestureGameConfiguration {
 	private final Map<PlayerId, GestureGameController> gameControllers;
 	private final List<GameEventsListener> gameEventsListeners;
 	
-	public static class Builder {
+	public static final class Builder {
 		
 		private int playCount;
 		private long playDurationInMs;
@@ -92,7 +92,8 @@ public class GestureGameConfiguration {
 		
 	}
 	
-	private GestureGameConfiguration(Players players, Map<PlayerId, GestureGameController> gameControllers, int gamePlays, long gamePlayPeriodInMs, List<GameEventsListener> gameEventsListeners) {
+	private GestureGameConfiguration(Players players, Map<PlayerId, GestureGameController> gameControllers, 
+			int gamePlays, long gamePlayPeriodInMs, List<GameEventsListener> gameEventsListeners) {
 		this.players = players;
 		this.gameControllers = gameControllers;
 		this.playCount = gamePlays;
