@@ -16,7 +16,7 @@ public enum Paper implements HandGesture {
 	}
 	
 	@Override
-	public GamePlayStatus compareToGesture(HandGesture gesture) {
+	public GamePlayStatus versus(HandGesture gesture) {
 		if (gesture == this) {
 			return GamePlayStatus.TIE;
 		}

@@ -4,16 +4,16 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
-import pl.mmajcherski.rps.domain.Game;
-import pl.mmajcherski.rps.domain.GamePlayStatus;
+import pl.mmajcherski.rps.domain.GestureGameController;
+import pl.mmajcherski.rps.domain.PlayerGestureControllable;
+import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.HandGesture;
 import pl.mmajcherski.rps.domain.Player;
 
-public class HumanPlayer implements Player {
+public class HumanPlayer implements Player, GestureGameController, GameEventsListener {
 	
 	private final PlayerId playerId;
-	private Game game;
-	private HandGesture gestureShown;
+	private PlayerGestureControllable game;
 	
 	private HumanPlayer(PlayerId playerId) {
 		requireNonNull(playerId, "Player must be given non-null ID");
@@ -31,44 +31,33 @@ public class HumanPlayer implements Player {
 	}
 
 	@Override
-	public void join(Game game) {
-		requireNonNull(game, "Cannot join game which is null");
+	public void showGesture(HandGesture gesture) {
+		checkGameAlreadyStarted();
 		
-		this.game = game;
-		
-		game.accept(this);
+		game.onPlayerGesture(playerId, gesture);
 	}
 	
 	@Override
-	public void readyToPlay() {
-		requireJoinedGame();
-		
-		game.onPlayerReadyToPlay(playerId);
+	public void onGamePlayStarted(PlayerGestureControllable game) {
+		this.game = game;
 	}
 
 	@Override
-	public void showGesture(HandGesture gesture) {
-		gestureShown = gesture;
-	}
-	
-	@Override
-	public HandGesture getGestureShown() {
-		return gestureShown;
-	}
-	
-	@Override
-	public GamePlayStatus getGamePlayStatus() {
-		requireJoinedGame();
+	public void onGamePlayResult(GamePlayResult gamePlayResult, GameScore gameScore) {
 		
-		return game.getGamePlayStatusFor(playerId);
+	}
+
+	@Override
+	public void onGameOver(GameScore gameScore) {
+		
 	}
 	
-	private void requireJoinedGame() {
+	private void checkGameAlreadyStarted() {
 		if (game == null) {
-			throw new IllegalStateException("Player must first join a game");
+			throw new IllegalStateException("Game not started");
 		}
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(playerId);

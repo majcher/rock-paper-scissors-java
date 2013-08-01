@@ -2,7 +2,7 @@ package pl.mmajcherski.rps.domain.impl;
 
 import java.util.Objects;
 
-public class PlayerId {
+public final class PlayerId {
 
 	private final String value;
 	

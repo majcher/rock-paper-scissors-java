@@ -1,24 +1,25 @@
 package pl.mmajcherski.rps.domain.impl;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.api.Assertions;
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import pl.mmajcherski.rps.domain.Game;
 import pl.mmajcherski.rps.domain.Player;
+import pl.mmajcherski.rps.domain.PlayerGestureControllable;
 import pl.mmajcherski.rps.domain.impl.gesture.Rock;
 
 public class HumanPlayerTest {
 	
 	@Mock
-	private Game game;
-	
-	
+	private GestureGameConfiguration game;
+
 	@BeforeMethod
 	private void initializeMocks() {
 		MockitoAnnotations.initMocks(this);
@@ -45,67 +46,46 @@ public class HumanPlayerTest {
 		assertThat(player.getId()).isEqualTo(playerId);
 	}
 	
-	@Test
-	public void shouldSendAcceptRequestJoiningAGame() {
+	@Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "Game not started")
+	public void shouldNotBeAbleToShowGestureBeforeGameStartEventReceived() {
 		// given
 		PlayerId playerId = new PlayerId("1");
-		Player player = HumanPlayer.withId(playerId);
+		HumanPlayer player = HumanPlayer.withId(playerId);
 		
 		// when
-		player.join(game);
-		
-		// then
-		verify(game).accept(player);
-	}
-	
-	@Test(expectedExceptions = NullPointerException.class, expectedExceptionsMessageRegExp = "Cannot join game which is null")
-	public void shouldThrowAnExceptionWhenJoiningANullGame() {
-		// given
-		Game game = null;
-		PlayerId playerId = new PlayerId("1");
-		Player player = HumanPlayer.withId(playerId);
-		
-		// when
-		player.join(game);
-	}
-	
-	@Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "Player must first join a game")
-	public void shouldNotBeAbleToSendReadyEventToAGameWhenPlayerHasNotYetJoinedIt() {
-		// given
-		PlayerId playerId = new PlayerId("1");
-		Player player = HumanPlayer.withId(playerId);
-		
-		// when
-		player.readyToPlay();
+		player.showGesture(Rock.INSTANCE);
 	}
 	
 	@Test
-	public void shouldSendReadyEventToTheGameWhenPlayerIsReadyToPlay() {
+	public void shouldBeAbleToShowGestureAfterGameStartEventReceived() {
 		// given
+		PlayerGestureControllable playerGestureControllableGame = mock(PlayerGestureControllable.class);
 		PlayerId playerId = new PlayerId("1");
-		Player player = HumanPlayer.withId(playerId);
-		player.join(game);
+		HumanPlayer player = HumanPlayer.withId(playerId);
+		player.onGamePlayStarted(playerGestureControllableGame);
 		
 		// when
-		player.readyToPlay();
-		
-		// then
-		verify(game).onPlayerReadyToPlay(playerId);
+		player.showGesture(Rock.INSTANCE);
 	}
 	
 	@Test
-	public void shouldProvideGestureShown() {
+	public void shouldTriggerGestureShownEventOnControlledGame() {
 		// given
+		PlayerGestureControllable playerGestureControllableGame = mock(PlayerGestureControllable.class);
 		PlayerId playerId = new PlayerId("1");
-		Player player = HumanPlayer.withId(playerId);
-		player.join(game);
-		player.readyToPlay();
+		HumanPlayer player = HumanPlayer.withId(playerId);
+		player.onGamePlayStarted(playerGestureControllableGame);
 		
 		// when
 		player.showGesture(Rock.INSTANCE);
 		
 		// then
-		assertThat(player.getGestureShown()).isEqualTo(Rock.INSTANCE);
+		verify(playerGestureControllableGame).onPlayerGesture(playerId, Rock.INSTANCE);
+	}
+	
+	@Test
+	public void shouldHaveEqualsHashCodeContractMet() {
+		EqualsVerifier.forClass(HumanPlayer.class).usingGetClass().verify();
 	}
 	
 }
