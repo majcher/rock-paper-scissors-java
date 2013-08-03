@@ -1,5 +1,7 @@
 package pl.mmajcherski.rps.domain.impl;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Objects;
 
 public final class PlayerId {
@@ -7,6 +9,8 @@ public final class PlayerId {
 	private final String value;
 	
 	public PlayerId(String value) {
+		requireNonNull(value, "Player must have non-null ID");
+		
 		this.value = value;
 	}
 
