@@ -2,6 +2,8 @@ package pl.mmajcherski.rps.domain.impl;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -13,13 +15,17 @@ import pl.mmajcherski.rps.domain.GamePlayStatus;
 import pl.mmajcherski.rps.domain.HandGesture;
 import pl.mmajcherski.rps.domain.Player;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
+import pl.mmajcherski.rps.domain.Players;
 
 public class GestureGame implements PlayerGestureListener, Runnable {
 
 	private final GestureGameConfiguration configuration;
 
+	private final Players players = new Players();
 	private final Map<PlayerId, HandGesture> playerGestures = new ConcurrentHashMap<>();
 	private final GameScore gameScore;
+	
+	private final List<GameEventsListener> gameEventsListeners = new ArrayList<>();
 	
 	private final AtomicInteger currentPlay = new AtomicInteger(0);
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -28,10 +34,23 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 		requireNonNull(configuration, "Game configuration not provided");
 		
 		this.configuration = configuration;
-		this.gameScore = new GameScore(configuration.getPlayers().getAllIds());
+		this.gameScore = new GameScore(players);
+	}
+	
+	public void add(Player player) {
+		requireNonNull(player, "Player must not be null");
+		checkGameCanAcceptPlayer(player);
+		
+		players.add(player);
+	}
+	
+	public void registerEventsListener(GameEventsListener gameEventsListener) {
+		this.gameEventsListeners.add(gameEventsListener);
 	}
 	
 	public void start() {
+		checkAllPlayersJoinedTheGame();
+		
 		for (int i=0; i<configuration.getPlayCount(); i++) {
 			executor.execute(this);
 		}
@@ -71,7 +90,7 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	private void rate() {
 		GamePlayResult gamePlayResult = new GamePlayResult();
 		
-		for (Player player : configuration.getPlayers()) {
+		for (Player player : players) {
 			GamePlayStatus gamePlayStatus = checkGamePlayStatus(player.getId());
 			updatePlayerScoreWithGamePlayStatus(player.getId(), gamePlayStatus);
 			gamePlayResult.addPlayerGamePlayStatus(player.getId(), gamePlayStatus);
@@ -81,7 +100,7 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	}
 
 	private GamePlayStatus checkGamePlayStatus(PlayerId playerId) {
-		Player opponent = configuration.getPlayers().getOpponentOf(playerId);
+		Player opponent = players.getOpponentOf(playerId);
 		
 		HandGesture playerGesture = playerGestures.get(playerId);
 		HandGesture opponentGesture = playerGestures.get(opponent.getId());
@@ -102,20 +121,43 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	}
 	
 	private void fireGamePlayStartedEvent() {
-		for (GameEventsListener listener : configuration.getGameEventsListeners()) {
+		for (GameEventsListener listener : gameEventsListeners) {
 			listener.onGamePlayStarted(this);
 		}
 	}
 	
 	private void fireGamePlayResultEvent(GamePlayResult gamePlayResult) {
-		for (GameEventsListener listener : configuration.getGameEventsListeners()) {
+		for (GameEventsListener listener : gameEventsListeners) {
 			listener.onGamePlayResult(gamePlayResult, gameScore);
 		}
 	}
 	
 	private void fireGameOverEvent() {
-		for (GameEventsListener listener : configuration.getGameEventsListeners()) {
+		for (GameEventsListener listener : gameEventsListeners) {
 			listener.onGameOver(gameScore);
+		}
+	}
+	
+	private void checkGameCanAcceptPlayer(Player player) {
+		checkPlayersSizeLimitReached();
+		checkThatGameDoesNotHavePlayer(player.getId());
+	}
+	
+	private void checkPlayersSizeLimitReached() {
+		if (players.size() >= configuration.getPlayersLimit()) {
+			throw new IllegalStateException(String.format("Game has a limit of %d players", configuration.getPlayersLimit()));
+		}
+	}
+	
+	private void checkThatGameDoesNotHavePlayer(PlayerId playerId) {
+		if (players.contains(playerId)) {
+			throw new IllegalArgumentException(String.format("Player with ID: %s has already joined the game", playerId));
+		}
+	}
+	
+	private void checkAllPlayersJoinedTheGame() {
+		if (players.size() < configuration.getPlayersLimit()) {
+			throw new IllegalStateException("Not all players joined the game");
 		}
 	}
 	

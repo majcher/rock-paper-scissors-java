@@ -5,12 +5,11 @@ import static java.util.Objects.requireNonNull;
 import java.util.Objects;
 
 import pl.mmajcherski.rps.domain.GestureGameController;
-import pl.mmajcherski.rps.domain.PlayerGestureListener;
-import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.HandGesture;
 import pl.mmajcherski.rps.domain.Player;
+import pl.mmajcherski.rps.domain.PlayerGestureListener;
 
-public final class HumanPlayer implements Player, GestureGameController, GameEventsListener {
+public final class HumanPlayer implements Player, GestureGameController {
 	
 	private final PlayerId playerId;
 	private PlayerGestureListener game;
@@ -29,32 +28,24 @@ public final class HumanPlayer implements Player, GestureGameController, GameEve
 	public PlayerId getId() {
 		return playerId;
 	}
+	
+	@Override
+	public void join(GestureGame game) {
+		this.game = game;
+		
+		game.add(this);
+	}
 
 	@Override
 	public void showGesture(HandGesture gesture) {
-		checkGameAlreadyStarted();
+		checkPlayerHasJoinedAGame();
 		
 		game.onPlayerGesture(playerId, gesture);
 	}
 	
-	@Override
-	public void onGamePlayStarted(PlayerGestureListener game) {
-		this.game = game;
-	}
-
-	@Override
-	public void onGamePlayResult(GamePlayResult gamePlayResult, GameScore gameScore) {
-		
-	}
-
-	@Override
-	public void onGameOver(GameScore gameScore) {
-		
-	}
-	
-	private void checkGameAlreadyStarted() {
+	private void checkPlayerHasJoinedAGame() {
 		if (game == null) {
-			throw new IllegalStateException("Game not started");
+			throw new IllegalStateException("Player must join game first");
 		}
 	}
 	

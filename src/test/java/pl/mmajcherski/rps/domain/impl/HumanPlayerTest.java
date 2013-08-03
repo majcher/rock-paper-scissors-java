@@ -3,7 +3,6 @@ package pl.mmajcherski.rps.domain.impl;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.mockito.Mock;
@@ -12,7 +11,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import pl.mmajcherski.rps.domain.Player;
-import pl.mmajcherski.rps.domain.PlayerGestureListener;
 import pl.mmajcherski.rps.domain.impl.gesture.Rock;
 
 public class HumanPlayerTest {
@@ -46,8 +44,8 @@ public class HumanPlayerTest {
 		assertThat(player.getId()).isEqualTo(playerId);
 	}
 	
-	@Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "Game not started")
-	public void shouldNotBeAbleToShowGestureBeforeGameStartEventReceived() {
+	@Test(expectedExceptions = IllegalStateException.class, expectedExceptionsMessageRegExp = "Player must join game first")
+	public void shouldNotBeAbleToShowGestureBeforeJoiningTheGame() {
 		// given
 		PlayerId playerId = new PlayerId("1");
 		HumanPlayer player = HumanPlayer.withId(playerId);
@@ -57,12 +55,12 @@ public class HumanPlayerTest {
 	}
 	
 	@Test
-	public void shouldBeAbleToShowGestureAfterGameStartEventReceived() {
+	public void shouldBeAbleToShowGestureAfterJoiningTheGame() {
 		// given
-		PlayerGestureListener playerGestureListener = mock(PlayerGestureListener.class);
+		GestureGame game = mock(GestureGame.class);
 		PlayerId playerId = new PlayerId("1");
 		HumanPlayer player = HumanPlayer.withId(playerId);
-		player.onGamePlayStarted(playerGestureListener);
+		player.join(game);
 		
 		// when
 		player.showGesture(Rock.INSTANCE);
@@ -71,16 +69,16 @@ public class HumanPlayerTest {
 	@Test
 	public void shouldTriggerGestureShownEventOnControlledGame() {
 		// given
-		PlayerGestureListener playerGestureListener = mock(PlayerGestureListener.class);
+		GestureGame game = mock(GestureGame.class);
 		PlayerId playerId = new PlayerId("1");
 		HumanPlayer player = HumanPlayer.withId(playerId);
-		player.onGamePlayStarted(playerGestureListener);
+		player.join(game);
 		
 		// when
 		player.showGesture(Rock.INSTANCE);
 		
 		// then
-		verify(playerGestureListener).onPlayerGesture(playerId, Rock.INSTANCE);
+		verify(game).onPlayerGesture(playerId, Rock.INSTANCE);
 	}
 	
 	@Test

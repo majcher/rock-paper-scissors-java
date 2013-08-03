@@ -17,6 +17,10 @@ public final class ComputerPlayer implements Player, GameEventsListener {
 	public PlayerId getId() {
 		return null;
 	}
+	
+	@Override
+	public void join(GestureGame game) {
+	}
 
 	@Override
 	public void onGamePlayStarted(PlayerGestureListener gameController) {

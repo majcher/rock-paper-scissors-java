@@ -2,11 +2,10 @@ package pl.mmajcherski.rps.domain.impl;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import pl.mmajcherski.rps.domain.Players;
 
 public class GameScoreTest {
 
@@ -17,11 +16,11 @@ public class GameScoreTest {
 	
 	@BeforeMethod
 	public void createGameScore() {
-		Set<PlayerId> playerIds = new HashSet<>();
-		playerIds.add(PLAYER_ID_1);
-		playerIds.add(PLAYER_ID_2);
+		Players players = new Players();
+		players.add(HumanPlayer.withId(PLAYER_ID_1));
+		players.add(HumanPlayer.withId(PLAYER_ID_2));
 		
-		gameScore = new GameScore(playerIds);
+		gameScore = new GameScore(players);
 	}
 	
 	@Test

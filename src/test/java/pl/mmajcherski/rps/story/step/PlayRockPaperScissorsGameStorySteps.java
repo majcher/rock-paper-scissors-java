@@ -14,22 +14,20 @@ import org.jbehave.core.annotations.When;
 import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.GamePlayStatus;
 import pl.mmajcherski.rps.domain.HandGesture;
-import pl.mmajcherski.rps.domain.Player;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
 import pl.mmajcherski.rps.domain.impl.GamePlayResult;
 import pl.mmajcherski.rps.domain.impl.GameScore;
 import pl.mmajcherski.rps.domain.impl.GestureGame;
 import pl.mmajcherski.rps.domain.impl.GestureGameConfiguration;
+import pl.mmajcherski.rps.domain.impl.HumanPlayer;
 import pl.mmajcherski.rps.domain.impl.PlayerId;
 
 public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 
 	private static final long GAME_PLAY_PERIOD_IN_MS = 50;
 	
-	private PlayerId playerId;
-	private PlayerId opponentId;
-	
-	private GestureGameConfiguration configuration;
+	private HumanPlayer player;
+	private HumanPlayer opponent;
 	
 	private BlockingQueue<Boolean> gameStartQueue = new LinkedBlockingQueue<>();
 	private BlockingQueue<GamePlayResult> gamePlayResultQueue = new LinkedBlockingQueue<>();
@@ -38,52 +36,52 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	@Given("a RPS game setup for $gamePlayCount play with 2 players: $playerId and $opponentId")
 	@Alias("a RPS game setup for $gamePlayCount plays with 2 players: $playerId and $opponentId")
 	public void startAGame(int gamePlayCount, PlayerId playerId, PlayerId opponentId) {
-		this.playerId = playerId;
-		this.opponentId = opponentId;
-		
-		configuration = new GestureGameConfiguration.Builder()
-				.withHumanPlayer(playerId)
-				.withHumanPlayer(opponentId)
+		GestureGameConfiguration configuration = new GestureGameConfiguration.Builder()
 				.withGameDurationInMs(GAME_PLAY_PERIOD_IN_MS)
 				.withGamePlayCount(gamePlayCount)
-				.withGameEventsListener(this)
 				.build();
 		
-		new GestureGame(configuration).start();
+		GestureGame game = new GestureGame(configuration);
+		game.registerEventsListener(this);
+		
+		HumanPlayer player = HumanPlayer.withId(playerId);
+		player.join(game);
+		
+		HumanPlayer opponent = HumanPlayer.withId(opponentId);
+		opponent.join(game);
+		
+		game.start();
+		
+		this.player = player;
+		this.opponent = opponent;
 	}
 	
 	@When("$playerId shows $gestureName gesture")
 	public void playerShowsGesture(PlayerId playerId, HandGesture gesture) throws InterruptedException {
 		gameStartQueue.take();
 		
-		configuration.getGameControllerForPlayer(playerId).showGesture(gesture);
+		getPlayerForId(playerId).showGesture(gesture);
 	}
 	
 	@When("both players show <gesture> gesture")
 	public void bothPlayersShowSameGesture(@Named("gesture") HandGesture gesture) throws InterruptedException {
-		playerShowsGesture(playerId, gesture);
-		playerShowsGesture(opponentId, gesture);
+		playerShowsGesture(player.getId(), gesture);
+		playerShowsGesture(opponent.getId(), gesture);
 	}
 	
 	@Then("$winnerId wins the play")
 	public void playerWinsThePlay(PlayerId winnerId) throws InterruptedException {
-		Player looser = configuration.getPlayers().getOpponentOf(winnerId);
-		
 		GamePlayResult gamePlayResult = gamePlayResultQueue.take();
 		
-		GamePlayStatus winnerGamePlayStatus = gamePlayResult.getGamePlayStatusOf(winnerId);
-		GamePlayStatus looserGamePlayStatus = gamePlayResult.getGamePlayStatusOf(looser.getId());
-		
-		assertThat(winnerGamePlayStatus).isEqualTo(GamePlayStatus.WIN);
-		assertThat(looserGamePlayStatus).isEqualTo(GamePlayStatus.LOOSE);
+		assertThat(gamePlayResult.getGamePlayStatusOf(winnerId)).isEqualTo(GamePlayStatus.WIN);
 	}
 	
 	@Then("there is no play winner")
 	public void nobodyWinsThePlay() throws InterruptedException {
 		GamePlayResult gamePlayResult = gamePlayResultQueue.take();
 		
-		GamePlayStatus playerGamePlayStatus = gamePlayResult.getGamePlayStatusOf(playerId);
-		GamePlayStatus opponentGamePlayStatus = gamePlayResult.getGamePlayStatusOf(opponentId);
+		GamePlayStatus playerGamePlayStatus = gamePlayResult.getGamePlayStatusOf(player.getId());
+		GamePlayStatus opponentGamePlayStatus = gamePlayResult.getGamePlayStatusOf(opponent.getId());
 		
 		assertThat(playerGamePlayStatus).isEqualTo(GamePlayStatus.TIE);
 		assertThat(opponentGamePlayStatus).isEqualTo(GamePlayStatus.TIE);
@@ -93,8 +91,9 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	@Alias("there is a tie $expectedPlayerScore:$expectedOpponentScore")
 	public void gameScoreIs(int expectedPlayerScore, int expectedOpponentScore) throws InterruptedException {
 		GameScore gameScore = gameScoreQueue.take();
-		int playerScore = gameScore.of(playerId);
-		int opponentScore = gameScore.of(opponentId);
+		
+		int playerScore = gameScore.of(player.getId());
+		int opponentScore = gameScore.of(opponent.getId());
 		
 		assertThat(playerScore).isEqualTo(expectedPlayerScore);
 		assertThat(opponentScore).isEqualTo(expectedOpponentScore);
@@ -126,6 +125,10 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
+	}
+	
+	private HumanPlayer getPlayerForId(PlayerId playerId) {
+		return player.getId().equals(playerId) ? player : opponent;
 	}
 	
 }

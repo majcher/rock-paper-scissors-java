@@ -2,32 +2,34 @@ package pl.mmajcherski.rps.domain.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+
+import pl.mmajcherski.rps.domain.Players;
 
 public class GameScore {
 
-	private Map<PlayerId, Integer> playersScore = new HashMap<>();
+	private final Players players;
+	private final Map<PlayerId, Integer> playersScore = new HashMap<>();
 	
-	public GameScore(Set<PlayerId> playerIds) {
-		for (PlayerId playerId : playerIds) {
-			playersScore.put(playerId, 0);
-		}
+	public GameScore(Players players) {
+		this.players = players;
 	}
 
 	public void increaseScoreForPlayer(PlayerId playerId) {
 		requirePlayerWith(playerId);
 		
 		Integer score = playersScore.get(playerId);
-		playersScore.put(playerId, score + 1);
+		playersScore.put(playerId, (score == null) ? 1 : score + 1);
 	}
 
 	public int of(PlayerId playerId) {
 		requirePlayerWith(playerId);
-		return playersScore.get(playerId);
+		
+		Integer score = playersScore.get(playerId);
+		return (score == null) ? 0 : score;
 	}
 	
 	private void requirePlayerWith(PlayerId playerId) {
-		if (!playersScore.containsKey(playerId)) {
+		if (!players.contains(playerId)) {
 			throw new IllegalArgumentException("No such player in the game");
 		}
 	}
