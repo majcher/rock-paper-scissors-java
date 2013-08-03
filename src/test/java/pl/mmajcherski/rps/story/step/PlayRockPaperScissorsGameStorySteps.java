@@ -13,7 +13,6 @@ import org.jbehave.core.annotations.When;
 
 import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.GamePlayStatus;
-import pl.mmajcherski.rps.domain.GestureGameController;
 import pl.mmajcherski.rps.domain.HandGesture;
 import pl.mmajcherski.rps.domain.Player;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
@@ -32,6 +31,7 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	
 	private GestureGameConfiguration configuration;
 	
+	private BlockingQueue<Boolean> gameStartQueue = new LinkedBlockingQueue<>();
 	private BlockingQueue<GamePlayResult> gamePlayResultQueue = new LinkedBlockingQueue<>();
 	private BlockingQueue<GameScore> gameScoreQueue = new LinkedBlockingQueue<>();
 	
@@ -53,13 +53,14 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	}
 	
 	@When("$playerId shows $gestureName gesture")
-	public void playerShowsGesture(PlayerId playerId, HandGesture gesture) {
-		GestureGameController controller = configuration.getGameControllerForPlayer(playerId);
-		controller.showGesture(gesture);
+	public void playerShowsGesture(PlayerId playerId, HandGesture gesture) throws InterruptedException {
+		gameStartQueue.take();
+		
+		configuration.getGameControllerForPlayer(playerId).showGesture(gesture);
 	}
 	
 	@When("both players show <gesture> gesture")
-	public void bothPlayersShowSameGesture(@Named("gesture") HandGesture gesture) {
+	public void bothPlayersShowSameGesture(@Named("gesture") HandGesture gesture) throws InterruptedException {
 		playerShowsGesture(playerId, gesture);
 		playerShowsGesture(opponentId, gesture);
 	}
@@ -101,6 +102,12 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	
 	@Override
 	public void onGamePlayStarted(PlayerGestureListener gameController) {
+		try {
+			gameStartQueue.put(Boolean.TRUE);
+			gameStartQueue.put(Boolean.TRUE);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 	}
 
 	@Override

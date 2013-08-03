@@ -32,20 +32,18 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	}
 	
 	public void start() {
-		executor.execute(this);
-		playerGestures.clear();
-		
-		fireGamePlayStartedEvent();
+		for (int i=0; i<configuration.getPlayCount(); i++) {
+			executor.execute(this);
+		}
 	}
 	
 	@Override
-	public void onPlayerGesture(PlayerId playerId, HandGesture gesture) {
-		playerGestures.put(playerId, gesture);
-	}
-
-	@Override
 	public void run() {
+		playerGestures.clear();
+		
 		currentPlay.incrementAndGet();
+		
+		fireGamePlayStartedEvent();
 
 		sleepForGamePlayDuration();
 		
@@ -55,8 +53,11 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 			fireGameOverEvent();
 			return;
 		}
-		
-		start();
+	}
+	
+	@Override
+	public void onPlayerGesture(PlayerId playerId, HandGesture gesture) {
+		playerGestures.put(playerId, gesture);
 	}
 
 	private void sleepForGamePlayDuration() {
