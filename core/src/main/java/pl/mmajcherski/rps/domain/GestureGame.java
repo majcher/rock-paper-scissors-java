@@ -103,7 +103,17 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 		Gesture playerGesture = playerGestures.get(playerId);
 		Gesture opponentGesture = playerGestures.get(opponent.getId());
 		
-		// handle not shown gestures - faults
+		if (playerGesture == null && opponentGesture == null) {
+			return GamePlayStatus.TIE;
+		}
+		
+		if (playerGesture == null) {
+			return GamePlayStatus.LOOSE;
+		}
+		
+		if (opponentGesture == null) {
+			return GamePlayStatus.WIN;
+		}
 		
 		return playerGesture.versus(opponentGesture);
 	}

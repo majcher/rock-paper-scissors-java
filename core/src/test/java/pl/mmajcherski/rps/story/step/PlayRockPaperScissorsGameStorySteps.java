@@ -69,6 +69,10 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 		playerShowsGesture(opponent.getId(), gesture);
 	}
 	
+	@When("$playerId does not show any gesture")
+	public void playerDoesNotShowAnyGesture(PlayerId playerId) {
+	}
+	
 	@Then("$winnerId wins the play")
 	public void playerWinsThePlay(PlayerId winnerId) throws InterruptedException {
 		GamePlayResult gamePlayResult = gamePlayResultQueue.take();

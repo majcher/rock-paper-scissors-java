@@ -67,3 +67,27 @@ And Peter shows Scissors gesture
 Then Mike wins the play
 
 And the game score is 3:1
+
+Scenario: One player does not show a gesture
+
+Given a RPS game setup for 1 play with 2 players: Mike and Peter
+When Mike shows Rock gesture
+And Peter does not show any gesture
+Then Mike wins the play
+And the game score is 1:0
+
+Scenario: One player does not show a gesture
+
+Given a RPS game setup for 1 play with 2 players: Mike and Peter
+When Mike does not show any gesture
+And Peter shows Rock gesture
+Then Peter wins the play
+And the game score is 0:1
+
+Scenario: Both players do not show a gesture
+
+Given a RPS game setup for 1 play with 2 players: Mike and Peter
+When Mike does not show any gesture
+And Peter does not show any gesture
+Then there is no play winner
+And the game score is 0:0
