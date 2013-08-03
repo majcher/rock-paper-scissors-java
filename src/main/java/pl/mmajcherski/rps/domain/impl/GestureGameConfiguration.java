@@ -1,6 +1,7 @@
 package pl.mmajcherski.rps.domain.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +119,7 @@ public class GestureGameConfiguration {
 	}
 	
 	public List<GameEventsListener> getGameEventsListeners() {
-		return gameEventsListeners;
+		return Collections.unmodifiableList(gameEventsListeners);
 	}
 	
 }
