@@ -1,8 +1,12 @@
-package pl.mmajcherski.rps.domain.impl;
+package pl.mmajcherski.rps.domain;
 
 import org.testng.annotations.Test;
 
-import pl.mmajcherski.rps.domain.Player;
+import pl.mmajcherski.rps.domain.GestureGame;
+import pl.mmajcherski.rps.domain.GestureGameConfiguration;
+import pl.mmajcherski.rps.domain.player.Player;
+import pl.mmajcherski.rps.domain.player.PlayerId;
+import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 
 public class GestureGameTest {
 

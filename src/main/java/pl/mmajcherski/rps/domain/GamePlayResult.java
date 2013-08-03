@@ -1,9 +1,9 @@
-package pl.mmajcherski.rps.domain.impl;
+package pl.mmajcherski.rps.domain;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import pl.mmajcherski.rps.domain.GamePlayStatus;
+import pl.mmajcherski.rps.domain.player.PlayerId;
 
 public class GamePlayResult {
 

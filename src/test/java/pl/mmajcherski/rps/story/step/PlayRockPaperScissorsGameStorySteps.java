@@ -12,15 +12,15 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
 import pl.mmajcherski.rps.domain.GameEventsListener;
+import pl.mmajcherski.rps.domain.GamePlayResult;
 import pl.mmajcherski.rps.domain.GamePlayStatus;
-import pl.mmajcherski.rps.domain.HandGesture;
+import pl.mmajcherski.rps.domain.GameScore;
+import pl.mmajcherski.rps.domain.GestureGame;
+import pl.mmajcherski.rps.domain.GestureGameConfiguration;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
-import pl.mmajcherski.rps.domain.impl.GamePlayResult;
-import pl.mmajcherski.rps.domain.impl.GameScore;
-import pl.mmajcherski.rps.domain.impl.GestureGame;
-import pl.mmajcherski.rps.domain.impl.GestureGameConfiguration;
-import pl.mmajcherski.rps.domain.impl.HumanPlayer;
-import pl.mmajcherski.rps.domain.impl.PlayerId;
+import pl.mmajcherski.rps.domain.gesture.HandGesture;
+import pl.mmajcherski.rps.domain.player.PlayerId;
+import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 
 public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 

@@ -1,8 +1,5 @@
 package pl.mmajcherski.rps.domain;
 
-import pl.mmajcherski.rps.domain.impl.GamePlayResult;
-import pl.mmajcherski.rps.domain.impl.GameScore;
-
 public interface GameEventsListener {
 
 	void onGamePlayStarted(PlayerGestureListener gameController);

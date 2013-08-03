@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps.domain.impl;
+package pl.mmajcherski.rps.domain;
 
 import static java.util.Objects.requireNonNull;
 
@@ -10,12 +10,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import pl.mmajcherski.rps.domain.GameEventsListener;
-import pl.mmajcherski.rps.domain.GamePlayStatus;
-import pl.mmajcherski.rps.domain.HandGesture;
-import pl.mmajcherski.rps.domain.Player;
-import pl.mmajcherski.rps.domain.PlayerGestureListener;
-import pl.mmajcherski.rps.domain.Players;
+import pl.mmajcherski.rps.domain.gesture.HandGesture;
+import pl.mmajcherski.rps.domain.player.Player;
+import pl.mmajcherski.rps.domain.player.PlayerId;
+import pl.mmajcherski.rps.domain.player.Players;
 
 public class GestureGame implements PlayerGestureListener, Runnable {
 

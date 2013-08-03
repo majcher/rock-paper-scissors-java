@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps.domain;
+package pl.mmajcherski.rps.domain.player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import pl.mmajcherski.rps.domain.impl.PlayerId;
 
 public class Players implements Iterable<Player> {
 	

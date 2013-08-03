@@ -1,8 +1,10 @@
-package pl.mmajcherski.rps.domain.impl;
+package pl.mmajcherski.rps.domain.player;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.testng.annotations.Test;
+
+import pl.mmajcherski.rps.domain.player.PlayerId;
 
 public class PlayerIdTest {
 

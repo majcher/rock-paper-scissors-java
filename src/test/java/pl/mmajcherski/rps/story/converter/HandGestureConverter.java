@@ -4,10 +4,10 @@ import java.lang.reflect.Type;
 
 import org.jbehave.core.steps.ParameterConverters.ParameterConverter;
 
-import pl.mmajcherski.rps.domain.HandGesture;
-import pl.mmajcherski.rps.domain.impl.gesture.Paper;
-import pl.mmajcherski.rps.domain.impl.gesture.Rock;
-import pl.mmajcherski.rps.domain.impl.gesture.Scissors;
+import pl.mmajcherski.rps.domain.gesture.HandGesture;
+import pl.mmajcherski.rps.domain.gesture.impl.Paper;
+import pl.mmajcherski.rps.domain.gesture.impl.Rock;
+import pl.mmajcherski.rps.domain.gesture.impl.Scissors;
 
 public class HandGestureConverter implements ParameterConverter {
 

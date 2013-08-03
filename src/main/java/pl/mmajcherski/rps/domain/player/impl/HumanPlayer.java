@@ -1,18 +1,19 @@
-package pl.mmajcherski.rps.domain.impl;
+package pl.mmajcherski.rps.domain.player.impl;
 
 import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
-import pl.mmajcherski.rps.domain.GestureGameController;
-import pl.mmajcherski.rps.domain.HandGesture;
-import pl.mmajcherski.rps.domain.Player;
+import pl.mmajcherski.rps.domain.GestureGame;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
+import pl.mmajcherski.rps.domain.gesture.HandGesture;
+import pl.mmajcherski.rps.domain.player.Player;
+import pl.mmajcherski.rps.domain.player.PlayerId;
 
-public final class HumanPlayer implements Player, GestureGameController {
+public final class HumanPlayer implements Player {
 	
 	private final PlayerId playerId;
-	private PlayerGestureListener game;
+	private PlayerGestureListener playerGestureListener;
 	
 	private HumanPlayer(final PlayerId playerId) {
 		requireNonNull(playerId, "Player must be given non-null ID");
@@ -31,20 +32,19 @@ public final class HumanPlayer implements Player, GestureGameController {
 	
 	@Override
 	public void join(GestureGame game) {
-		this.game = game;
+		this.playerGestureListener = game;
 		
 		game.add(this);
 	}
 
-	@Override
 	public void showGesture(HandGesture gesture) {
 		checkPlayerHasJoinedAGame();
 		
-		game.onPlayerGesture(playerId, gesture);
+		playerGestureListener.onPlayerGesture(playerId, gesture);
 	}
 	
 	private void checkPlayerHasJoinedAGame() {
-		if (game == null) {
+		if (playerGestureListener == null) {
 			throw new IllegalStateException("Player must join game first");
 		}
 	}

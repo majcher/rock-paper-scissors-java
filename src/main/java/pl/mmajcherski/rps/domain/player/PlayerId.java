@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps.domain.impl;
+package pl.mmajcherski.rps.domain.player;
 
 import static java.util.Objects.requireNonNull;
 

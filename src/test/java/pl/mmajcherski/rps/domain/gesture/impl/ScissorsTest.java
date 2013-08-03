@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps.domain.impl.gesture;
+package pl.mmajcherski.rps.domain.gesture.impl;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static pl.mmajcherski.rps.domain.GamePlayStatus.LOOSE;
@@ -8,6 +8,9 @@ import static pl.mmajcherski.rps.domain.GamePlayStatus.WIN;
 import org.testng.annotations.Test;
 
 import pl.mmajcherski.rps.domain.GamePlayStatus;
+import pl.mmajcherski.rps.domain.gesture.impl.Paper;
+import pl.mmajcherski.rps.domain.gesture.impl.Rock;
+import pl.mmajcherski.rps.domain.gesture.impl.Scissors;
 
 public class ScissorsTest {
 

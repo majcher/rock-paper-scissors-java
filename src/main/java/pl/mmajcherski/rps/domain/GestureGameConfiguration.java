@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps.domain.impl;
+package pl.mmajcherski.rps.domain;
 
 public class GestureGameConfiguration {
 

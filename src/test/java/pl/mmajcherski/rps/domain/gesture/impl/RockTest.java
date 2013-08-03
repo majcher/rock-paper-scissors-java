@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps.domain.impl.gesture;
+package pl.mmajcherski.rps.domain.gesture.impl;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static pl.mmajcherski.rps.domain.GamePlayStatus.LOOSE;
@@ -8,42 +8,45 @@ import static pl.mmajcherski.rps.domain.GamePlayStatus.WIN;
 import org.testng.annotations.Test;
 
 import pl.mmajcherski.rps.domain.GamePlayStatus;
+import pl.mmajcherski.rps.domain.gesture.impl.Paper;
+import pl.mmajcherski.rps.domain.gesture.impl.Rock;
+import pl.mmajcherski.rps.domain.gesture.impl.Scissors;
 
-public class PaperTest {
+public class RockTest {
 
 	@Test
-	public void shouldWinWithRock() {
+	public void shouldWinWithScissors() {
 		// given
-		Paper paper = Paper.INSTANCE;
 		Rock rock = Rock.INSTANCE;
+		Scissors scissors = Scissors.INSTANCE;
 		
 		// when
-		GamePlayStatus status = paper.versus(rock);
+		GamePlayStatus status = rock.versus(scissors);
 		
 		// then
 		assertThat(status).isEqualTo(WIN);
 	}
 	
 	@Test
-	public void shouldTieWithPaper() {
+	public void shouldTieWithRock() {
 		// given
-		Paper paper = Paper.INSTANCE;
+		Rock rock = Rock.INSTANCE;
 		
 		// when
-		GamePlayStatus status = paper.versus(paper);
+		GamePlayStatus status = rock.versus(rock);
 		
 		// then
 		assertThat(status).isEqualTo(TIE);
 	}
 	
 	@Test
-	public void shouldLooseWithScissors() {
+	public void shouldLooseWithPaper() {
 		// given
+		Rock rock = Rock.INSTANCE;
 		Paper paper = Paper.INSTANCE;
-		Scissors scissors = Scissors.INSTANCE;
 		
 		// when
-		GamePlayStatus status = paper.versus(scissors);
+		GamePlayStatus status = rock.versus(paper);
 		
 		// then
 		assertThat(status).isEqualTo(LOOSE);

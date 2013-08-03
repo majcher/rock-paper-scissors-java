@@ -1,18 +1,18 @@
-package pl.mmajcherski.rps.domain.impl.gesture;
+package pl.mmajcherski.rps.domain.gesture.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import pl.mmajcherski.rps.domain.GamePlayStatus;
-import pl.mmajcherski.rps.domain.HandGesture;
+import pl.mmajcherski.rps.domain.gesture.HandGesture;
 
-public enum Paper implements HandGesture {
+public enum Scissors implements HandGesture {
 
 	INSTANCE;
 
 	private static final Set<Class<? extends HandGesture>> LOOSES_WITH = new HashSet<>();
 	static {
-		LOOSES_WITH.add(Scissors.class);
+		LOOSES_WITH.add(Rock.class);
 	}
 
 	@Override
@@ -23,5 +23,5 @@ public enum Paper implements HandGesture {
 
 		return (LOOSES_WITH.contains(gesture.getClass())) ? GamePlayStatus.LOOSE : GamePlayStatus.WIN;
 	}
-	
+
 }

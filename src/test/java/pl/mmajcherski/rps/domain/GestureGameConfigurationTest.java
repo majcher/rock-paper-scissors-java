@@ -1,8 +1,10 @@
-package pl.mmajcherski.rps.domain.impl;
+package pl.mmajcherski.rps.domain;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.testng.annotations.Test;
+
+import pl.mmajcherski.rps.domain.GestureGameConfiguration;
 
 public class GestureGameConfigurationTest {
 		

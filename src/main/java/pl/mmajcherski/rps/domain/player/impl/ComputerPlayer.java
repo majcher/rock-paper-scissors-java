@@ -1,8 +1,12 @@
-package pl.mmajcherski.rps.domain.impl;
+package pl.mmajcherski.rps.domain.player.impl;
 
 import pl.mmajcherski.rps.domain.GameEventsListener;
-import pl.mmajcherski.rps.domain.Player;
+import pl.mmajcherski.rps.domain.GamePlayResult;
+import pl.mmajcherski.rps.domain.GameScore;
+import pl.mmajcherski.rps.domain.GestureGame;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
+import pl.mmajcherski.rps.domain.player.Player;
+import pl.mmajcherski.rps.domain.player.PlayerId;
 
 public final class ComputerPlayer implements Player, GameEventsListener {
 

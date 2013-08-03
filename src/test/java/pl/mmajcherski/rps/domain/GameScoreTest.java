@@ -1,11 +1,14 @@
-package pl.mmajcherski.rps.domain.impl;
+package pl.mmajcherski.rps.domain;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import pl.mmajcherski.rps.domain.Players;
+import pl.mmajcherski.rps.domain.GameScore;
+import pl.mmajcherski.rps.domain.player.PlayerId;
+import pl.mmajcherski.rps.domain.player.Players;
+import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 
 public class GameScoreTest {
 
