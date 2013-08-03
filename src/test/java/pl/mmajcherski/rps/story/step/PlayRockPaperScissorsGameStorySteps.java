@@ -16,7 +16,7 @@ import pl.mmajcherski.rps.domain.GamePlayResult;
 import pl.mmajcherski.rps.domain.GamePlayStatus;
 import pl.mmajcherski.rps.domain.GameFinalScore;
 import pl.mmajcherski.rps.domain.GestureGame;
-import pl.mmajcherski.rps.domain.GestureGameConfiguration;
+import pl.mmajcherski.rps.domain.GameConfiguration;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
 import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.player.PlayerId;
@@ -36,7 +36,7 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	@Given("a RPS game setup for $gamePlayCount play with 2 players: $playerId and $opponentId")
 	@Alias("a RPS game setup for $gamePlayCount plays with 2 players: $playerId and $opponentId")
 	public void startAGame(int gamePlayCount, PlayerId playerId, PlayerId opponentId) {
-		GestureGameConfiguration configuration = new GestureGameConfiguration.Builder()
+		GameConfiguration configuration = new GameConfiguration.Builder()
 				.withGameDurationInMs(GAME_PLAY_PERIOD_IN_MS)
 				.withGamePlayCount(gamePlayCount)
 				.build();

@@ -17,7 +17,7 @@ import pl.mmajcherski.rps.domain.player.Players;
 
 public class GestureGame implements PlayerGestureListener, Runnable {
 
-	private final GestureGameConfiguration configuration;
+	private final GameConfiguration configuration;
 
 	private final Players players = new Players();
 	private final Map<PlayerId, Gesture> playerGestures = new ConcurrentHashMap<>();
@@ -28,7 +28,7 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	private final AtomicInteger currentPlay = new AtomicInteger(0);
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-	public GestureGame(GestureGameConfiguration configuration) {
+	public GestureGame(GameConfiguration configuration) {
 		requireNonNull(configuration, "Game configuration not provided");
 		
 		this.configuration = configuration;

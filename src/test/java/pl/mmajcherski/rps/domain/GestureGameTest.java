@@ -3,14 +3,14 @@ package pl.mmajcherski.rps.domain;
 import org.testng.annotations.Test;
 
 import pl.mmajcherski.rps.domain.GestureGame;
-import pl.mmajcherski.rps.domain.GestureGameConfiguration;
+import pl.mmajcherski.rps.domain.GameConfiguration;
 import pl.mmajcherski.rps.domain.player.Player;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 
 public class GestureGameTest {
 
-	private GestureGameConfiguration configuration = new GestureGameConfiguration.Builder().build();
+	private GameConfiguration configuration = new GameConfiguration.Builder().build();
 	
 	@Test(expectedExceptions = NullPointerException.class, expectedExceptionsMessageRegExp = "Player must not be null")
 	public void shouldNotAcceptNullAsPlayer() {

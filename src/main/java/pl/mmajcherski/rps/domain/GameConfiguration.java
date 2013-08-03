@@ -1,6 +1,6 @@
 package pl.mmajcherski.rps.domain;
 
-public class GestureGameConfiguration {
+public class GameConfiguration {
 
 	private static final int PLAYERS_LIMIT = 2;
 	
@@ -25,13 +25,13 @@ public class GestureGameConfiguration {
 			return this;
 		}
 		
-		public GestureGameConfiguration build() {
-			return new GestureGameConfiguration(this);
+		public GameConfiguration build() {
+			return new GameConfiguration(this);
 		}
 		
 	}
 	
-	private GestureGameConfiguration(Builder builder) {
+	private GameConfiguration(Builder builder) {
 		this.playCount = builder.playCount;
 		this.playDurationInMs = builder.playDurationInMs;
 	}

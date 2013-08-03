@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import pl.mmajcherski.rps.domain.GestureGame;
-import pl.mmajcherski.rps.domain.GestureGameConfiguration;
+import pl.mmajcherski.rps.domain.GameConfiguration;
 import pl.mmajcherski.rps.domain.gesture.impl.Rock;
 import pl.mmajcherski.rps.domain.player.Player;
 import pl.mmajcherski.rps.domain.player.PlayerId;
@@ -20,7 +20,7 @@ import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 public class HumanPlayerTest {
 	
 	@Mock
-	private GestureGameConfiguration game;
+	private GameConfiguration game;
 
 	@BeforeMethod
 	private void initializeMocks() {
