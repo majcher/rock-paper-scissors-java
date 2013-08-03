@@ -16,7 +16,7 @@ import pl.mmajcherski.rps.domain.GamePlayStatus;
 import pl.mmajcherski.rps.domain.GestureGameController;
 import pl.mmajcherski.rps.domain.HandGesture;
 import pl.mmajcherski.rps.domain.Player;
-import pl.mmajcherski.rps.domain.PlayerGestureControllable;
+import pl.mmajcherski.rps.domain.PlayerGestureListener;
 import pl.mmajcherski.rps.domain.impl.GamePlayResult;
 import pl.mmajcherski.rps.domain.impl.GameScore;
 import pl.mmajcherski.rps.domain.impl.GestureGame;
@@ -100,7 +100,7 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	}
 	
 	@Override
-	public void onGamePlayStarted(PlayerGestureControllable gameController) {
+	public void onGamePlayStarted(PlayerGestureListener gameController) {
 	}
 
 	@Override

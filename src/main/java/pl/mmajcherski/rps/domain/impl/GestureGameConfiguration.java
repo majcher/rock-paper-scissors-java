@@ -9,7 +9,7 @@ import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.GestureGameController;
 import pl.mmajcherski.rps.domain.Players;
 
-public final class GestureGameConfiguration {
+public class GestureGameConfiguration {
 
 	private static final int PLAYERS_LIMIT = 2;
 	

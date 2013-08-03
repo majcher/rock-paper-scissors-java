@@ -5,7 +5,7 @@ import pl.mmajcherski.rps.domain.impl.GameScore;
 
 public interface GameEventsListener {
 
-	void onGamePlayStarted(PlayerGestureControllable gameController);
+	void onGamePlayStarted(PlayerGestureListener gameController);
 
 	void onGamePlayResult(GamePlayResult gamePlayResult, GameScore gameScore);
 

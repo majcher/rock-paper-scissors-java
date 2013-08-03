@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import pl.mmajcherski.rps.domain.Player;
-import pl.mmajcherski.rps.domain.PlayerGestureControllable;
+import pl.mmajcherski.rps.domain.PlayerGestureListener;
 import pl.mmajcherski.rps.domain.impl.gesture.Rock;
 
 public class HumanPlayerTest {
@@ -59,10 +59,10 @@ public class HumanPlayerTest {
 	@Test
 	public void shouldBeAbleToShowGestureAfterGameStartEventReceived() {
 		// given
-		PlayerGestureControllable playerGestureControllableGame = mock(PlayerGestureControllable.class);
+		PlayerGestureListener playerGestureListener = mock(PlayerGestureListener.class);
 		PlayerId playerId = new PlayerId("1");
 		HumanPlayer player = HumanPlayer.withId(playerId);
-		player.onGamePlayStarted(playerGestureControllableGame);
+		player.onGamePlayStarted(playerGestureListener);
 		
 		// when
 		player.showGesture(Rock.INSTANCE);
@@ -71,16 +71,16 @@ public class HumanPlayerTest {
 	@Test
 	public void shouldTriggerGestureShownEventOnControlledGame() {
 		// given
-		PlayerGestureControllable playerGestureControllableGame = mock(PlayerGestureControllable.class);
+		PlayerGestureListener playerGestureListener = mock(PlayerGestureListener.class);
 		PlayerId playerId = new PlayerId("1");
 		HumanPlayer player = HumanPlayer.withId(playerId);
-		player.onGamePlayStarted(playerGestureControllableGame);
+		player.onGamePlayStarted(playerGestureListener);
 		
 		// when
 		player.showGesture(Rock.INSTANCE);
 		
 		// then
-		verify(playerGestureControllableGame).onPlayerGesture(playerId, Rock.INSTANCE);
+		verify(playerGestureListener).onPlayerGesture(playerId, Rock.INSTANCE);
 	}
 	
 	@Test

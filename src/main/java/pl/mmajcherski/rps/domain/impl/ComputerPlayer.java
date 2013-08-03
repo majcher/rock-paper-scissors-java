@@ -2,7 +2,7 @@ package pl.mmajcherski.rps.domain.impl;
 
 import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.Player;
-import pl.mmajcherski.rps.domain.PlayerGestureControllable;
+import pl.mmajcherski.rps.domain.PlayerGestureListener;
 
 public final class ComputerPlayer implements Player, GameEventsListener {
 
@@ -19,7 +19,7 @@ public final class ComputerPlayer implements Player, GameEventsListener {
 	}
 
 	@Override
-	public void onGamePlayStarted(PlayerGestureControllable gameController) {
+	public void onGamePlayStarted(PlayerGestureListener gameController) {
 	}
 
 	@Override

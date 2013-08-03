@@ -12,9 +12,9 @@ import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.GamePlayStatus;
 import pl.mmajcherski.rps.domain.HandGesture;
 import pl.mmajcherski.rps.domain.Player;
-import pl.mmajcherski.rps.domain.PlayerGestureControllable;
+import pl.mmajcherski.rps.domain.PlayerGestureListener;
 
-public class GestureGame implements PlayerGestureControllable, Runnable {
+public class GestureGame implements PlayerGestureListener, Runnable {
 
 	private final GestureGameConfiguration configuration;
 

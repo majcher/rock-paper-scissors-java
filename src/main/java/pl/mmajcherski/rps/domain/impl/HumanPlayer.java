@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Objects;
 
 import pl.mmajcherski.rps.domain.GestureGameController;
-import pl.mmajcherski.rps.domain.PlayerGestureControllable;
+import pl.mmajcherski.rps.domain.PlayerGestureListener;
 import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.HandGesture;
 import pl.mmajcherski.rps.domain.Player;
@@ -13,7 +13,7 @@ import pl.mmajcherski.rps.domain.Player;
 public final class HumanPlayer implements Player, GestureGameController, GameEventsListener {
 	
 	private final PlayerId playerId;
-	private PlayerGestureControllable game;
+	private PlayerGestureListener game;
 	
 	private HumanPlayer(final PlayerId playerId) {
 		requireNonNull(playerId, "Player must be given non-null ID");
@@ -38,7 +38,7 @@ public final class HumanPlayer implements Player, GestureGameController, GameEve
 	}
 	
 	@Override
-	public void onGamePlayStarted(PlayerGestureControllable game) {
+	public void onGamePlayStarted(PlayerGestureListener game) {
 		this.game = game;
 	}
 
