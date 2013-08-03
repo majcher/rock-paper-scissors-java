@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import pl.mmajcherski.rps.domain.gesture.HandGesture;
+import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.player.Player;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 import pl.mmajcherski.rps.domain.player.Players;
@@ -20,8 +20,8 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	private final GestureGameConfiguration configuration;
 
 	private final Players players = new Players();
-	private final Map<PlayerId, HandGesture> playerGestures = new ConcurrentHashMap<>();
-	private final GameScore gameScore;
+	private final Map<PlayerId, Gesture> playerGestures = new ConcurrentHashMap<>();
+	private final GameFinalScore gameScore;
 	
 	private final List<GameEventsListener> gameEventsListeners = new ArrayList<>();
 	
@@ -32,7 +32,7 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 		requireNonNull(configuration, "Game configuration not provided");
 		
 		this.configuration = configuration;
-		this.gameScore = new GameScore(players);
+		this.gameScore = new GameFinalScore(players);
 	}
 	
 	public void add(Player player) {
@@ -73,7 +73,7 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	}
 	
 	@Override
-	public void onPlayerGesture(PlayerId playerId, HandGesture gesture) {
+	public void onPlayerGesture(PlayerId playerId, Gesture gesture) {
 		playerGestures.put(playerId, gesture);
 	}
 
@@ -100,8 +100,8 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	private GamePlayStatus checkGamePlayStatus(PlayerId playerId) {
 		Player opponent = players.getOpponentOf(playerId);
 		
-		HandGesture playerGesture = playerGestures.get(playerId);
-		HandGesture opponentGesture = playerGestures.get(opponent.getId());
+		Gesture playerGesture = playerGestures.get(playerId);
+		Gesture opponentGesture = playerGestures.get(opponent.getId());
 		
 		// handle not shown gestures - faults
 		

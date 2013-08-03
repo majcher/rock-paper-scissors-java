@@ -14,11 +14,11 @@ import org.jbehave.core.annotations.When;
 import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.GamePlayResult;
 import pl.mmajcherski.rps.domain.GamePlayStatus;
-import pl.mmajcherski.rps.domain.GameScore;
+import pl.mmajcherski.rps.domain.GameFinalScore;
 import pl.mmajcherski.rps.domain.GestureGame;
 import pl.mmajcherski.rps.domain.GestureGameConfiguration;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
-import pl.mmajcherski.rps.domain.gesture.HandGesture;
+import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 
@@ -31,7 +31,7 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	
 	private BlockingQueue<Boolean> gameStartQueue = new LinkedBlockingQueue<>();
 	private BlockingQueue<GamePlayResult> gamePlayResultQueue = new LinkedBlockingQueue<>();
-	private BlockingQueue<GameScore> gameScoreQueue = new LinkedBlockingQueue<>();
+	private BlockingQueue<GameFinalScore> gameScoreQueue = new LinkedBlockingQueue<>();
 	
 	@Given("a RPS game setup for $gamePlayCount play with 2 players: $playerId and $opponentId")
 	@Alias("a RPS game setup for $gamePlayCount plays with 2 players: $playerId and $opponentId")
@@ -57,14 +57,14 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	}
 	
 	@When("$playerId shows $gestureName gesture")
-	public void playerShowsGesture(PlayerId playerId, HandGesture gesture) throws InterruptedException {
+	public void playerShowsGesture(PlayerId playerId, Gesture gesture) throws InterruptedException {
 		gameStartQueue.take();
 		
 		getPlayerForId(playerId).showGesture(gesture);
 	}
 	
 	@When("both players show <gesture> gesture")
-	public void bothPlayersShowSameGesture(@Named("gesture") HandGesture gesture) throws InterruptedException {
+	public void bothPlayersShowSameGesture(@Named("gesture") Gesture gesture) throws InterruptedException {
 		playerShowsGesture(player.getId(), gesture);
 		playerShowsGesture(opponent.getId(), gesture);
 	}
@@ -90,7 +90,7 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	@Then("the game score is $expectedPlayerScore:$expectedOpponentScore")
 	@Alias("there is a tie $expectedPlayerScore:$expectedOpponentScore")
 	public void gameScoreIs(int expectedPlayerScore, int expectedOpponentScore) throws InterruptedException {
-		GameScore gameScore = gameScoreQueue.take();
+		GameFinalScore gameScore = gameScoreQueue.take();
 		
 		int playerScore = gameScore.of(player.getId());
 		int opponentScore = gameScore.of(opponent.getId());
@@ -110,7 +110,7 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	}
 
 	@Override
-	public void onGamePlayResult(GamePlayResult gamePlayResult, GameScore gameScore) {
+	public void onGamePlayResult(GamePlayResult gamePlayResult, GameFinalScore gameScore) {
 		try {
 			gamePlayResultQueue.put(gamePlayResult);
 		} catch (InterruptedException e) {
@@ -119,7 +119,7 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	}
 
 	@Override
-	public void onGameOver(GameScore gameScore) {
+	public void onGameOver(GameFinalScore gameScore) {
 		try {
 			gameScoreQueue.put(gameScore);
 		} catch (InterruptedException e) {

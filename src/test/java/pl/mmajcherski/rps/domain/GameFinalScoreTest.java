@@ -5,17 +5,17 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import pl.mmajcherski.rps.domain.GameScore;
+import pl.mmajcherski.rps.domain.GameFinalScore;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 import pl.mmajcherski.rps.domain.player.Players;
 import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 
-public class GameScoreTest {
+public class GameFinalScoreTest {
 
 	private static final PlayerId PLAYER_ID_1 = new PlayerId("1");
 	private static final PlayerId PLAYER_ID_2 = new PlayerId("2");
 	
-	private GameScore gameScore;
+	private GameFinalScore gameScore;
 	
 	@BeforeMethod
 	public void createGameScore() {
@@ -23,7 +23,7 @@ public class GameScoreTest {
 		players.add(HumanPlayer.withId(PLAYER_ID_1));
 		players.add(HumanPlayer.withId(PLAYER_ID_2));
 		
-		gameScore = new GameScore(players);
+		gameScore = new GameFinalScore(players);
 	}
 	
 	@Test

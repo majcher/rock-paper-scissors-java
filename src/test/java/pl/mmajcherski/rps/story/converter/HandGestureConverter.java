@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 
 import org.jbehave.core.steps.ParameterConverters.ParameterConverter;
 
-import pl.mmajcherski.rps.domain.gesture.HandGesture;
+import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.gesture.impl.Paper;
 import pl.mmajcherski.rps.domain.gesture.impl.Rock;
 import pl.mmajcherski.rps.domain.gesture.impl.Scissors;
@@ -17,7 +17,7 @@ public class HandGestureConverter implements ParameterConverter {
 
 	@Override
 	public boolean accept(Type type) {
-		return HandGesture.class.isAssignableFrom((Class<?>) type);
+		return Gesture.class.isAssignableFrom((Class<?>) type);
 	}
 
 	@Override

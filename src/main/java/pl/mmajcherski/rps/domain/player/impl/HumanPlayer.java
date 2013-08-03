@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import pl.mmajcherski.rps.domain.GestureGame;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
-import pl.mmajcherski.rps.domain.gesture.HandGesture;
+import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.player.Player;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 
@@ -37,7 +37,7 @@ public final class HumanPlayer implements Player {
 		game.add(this);
 	}
 
-	public void showGesture(HandGesture gesture) {
+	public void showGesture(Gesture gesture) {
 		checkPlayerHasJoinedAGame();
 		
 		playerGestureListener.onPlayerGesture(playerId, gesture);

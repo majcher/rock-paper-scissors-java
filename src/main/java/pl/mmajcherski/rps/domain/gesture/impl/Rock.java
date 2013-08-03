@@ -4,19 +4,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 import pl.mmajcherski.rps.domain.GamePlayStatus;
-import pl.mmajcherski.rps.domain.gesture.HandGesture;
+import pl.mmajcherski.rps.domain.gesture.Gesture;
 
-public enum Rock implements HandGesture {
+public enum Rock implements Gesture {
 
 	INSTANCE;
 
-	private static final Set<Class<? extends HandGesture>> LOOSES_WITH = new HashSet<>();
+	private static final Set<Class<? extends Gesture>> LOOSES_WITH = new HashSet<>();
 	static {
 		LOOSES_WITH.add(Paper.class);
 	}
 
 	@Override
-	public GamePlayStatus versus(final HandGesture gesture) {
+	public GamePlayStatus versus(final Gesture gesture) {
 		if (gesture == this) {
 			return GamePlayStatus.TIE;
 		}

@@ -2,7 +2,7 @@ package pl.mmajcherski.rps.domain.player.impl;
 
 import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.GamePlayResult;
-import pl.mmajcherski.rps.domain.GameScore;
+import pl.mmajcherski.rps.domain.GameFinalScore;
 import pl.mmajcherski.rps.domain.GestureGame;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
 import pl.mmajcherski.rps.domain.player.Player;
@@ -31,11 +31,11 @@ public final class ComputerPlayer implements Player, GameEventsListener {
 	}
 
 	@Override
-	public void onGamePlayResult(GamePlayResult gamePlayResult, GameScore gameScore) {
+	public void onGamePlayResult(GamePlayResult gamePlayResult, GameFinalScore gameScore) {
 	}
 
 	@Override
-	public void onGameOver(GameScore gameScore) {
+	public void onGameOver(GameFinalScore gameScore) {
 	}
 
 }

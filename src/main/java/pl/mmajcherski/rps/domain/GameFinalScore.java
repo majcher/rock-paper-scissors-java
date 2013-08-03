@@ -6,12 +6,12 @@ import java.util.Map;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 import pl.mmajcherski.rps.domain.player.Players;
 
-public class GameScore {
+public class GameFinalScore {
 
 	private final Players players;
 	private final Map<PlayerId, Integer> playersScore = new HashMap<>();
 	
-	public GameScore(Players players) {
+	public GameFinalScore(Players players) {
 		this.players = players;
 	}
 

@@ -4,8 +4,8 @@ public interface GameEventsListener {
 
 	void onGamePlayStarted(PlayerGestureListener gameController);
 
-	void onGamePlayResult(GamePlayResult gamePlayResult, GameScore gameScore);
+	void onGamePlayResult(GamePlayResult gamePlayResult, GameFinalScore gameScore);
 
-	void onGameOver(GameScore gameScore);
+	void onGameOver(GameFinalScore gameScore);
 
 }

@@ -7,7 +7,7 @@ import pl.mmajcherski.rps.domain.player.PlayerId;
 
 public class GamePlayResult {
 
-	private Map<PlayerId, GamePlayStatus> results = new HashMap<>();
+	private final Map<PlayerId, GamePlayStatus> results = new HashMap<>();
 
 	public void addPlayerGamePlayStatus(PlayerId playerId, GamePlayStatus gamePlayStatus) {
 		results.put(playerId, gamePlayStatus);
