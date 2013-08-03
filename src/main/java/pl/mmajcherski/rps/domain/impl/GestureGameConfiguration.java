@@ -24,9 +24,9 @@ public class GestureGameConfiguration {
 		
 		private int playCount;
 		private long playDurationInMs;
-		private Players players = new Players();
-		private Map<PlayerId, GestureGameController> gameControllers = new HashMap<>();
-		private List<GameEventsListener> gameEventsListeners = new ArrayList<>();
+		private final Players players = new Players();
+		private final Map<PlayerId, GestureGameController> gameControllers = new HashMap<>();
+		private final List<GameEventsListener> gameEventsListeners = new ArrayList<>();
 		
 		public Builder withHumanPlayer(PlayerId playerId) {
 			checkGameCanAcceptPlayer(playerId);
@@ -65,7 +65,7 @@ public class GestureGameConfiguration {
 		public GestureGameConfiguration build() {
 			checkAllPlayersJoinedTheGame();
 			
-			return new GestureGameConfiguration(players, gameControllers, playCount, playDurationInMs, gameEventsListeners);
+			return new GestureGameConfiguration(this);
 		}
 		
 		private void checkGameCanAcceptPlayer(PlayerId playerId) {
@@ -93,13 +93,12 @@ public class GestureGameConfiguration {
 		
 	}
 	
-	private GestureGameConfiguration(Players players, Map<PlayerId, GestureGameController> gameControllers, 
-			int gamePlays, long gamePlayPeriodInMs, List<GameEventsListener> gameEventsListeners) {
-		this.players = players;
-		this.gameControllers = gameControllers;
-		this.playCount = gamePlays;
-		this.playDurationInMs = gamePlayPeriodInMs;
-		this.gameEventsListeners = gameEventsListeners;
+	private GestureGameConfiguration(Builder builder) {
+		this.players = builder.players;
+		this.gameControllers = builder.gameControllers;
+		this.playCount = builder.playCount;
+		this.playDurationInMs = builder.playDurationInMs;
+		this.gameEventsListeners = builder.gameEventsListeners;
 	}
 	
 	public long getPlayCount() {
