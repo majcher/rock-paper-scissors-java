@@ -13,6 +13,10 @@ public final class PlayerId {
 		
 		this.value = value;
 	}
+	
+	public String getValue() {
+		return value;
+	}
 
 	@Override
 	public int hashCode() {

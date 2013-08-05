@@ -5,6 +5,8 @@ import pl.mmajcherski.rps.domain.gesture.Gesture;
 
 public interface Gesture {
 
+	String getName();
+	
 	GamePlayStatus versus(Gesture gesture);
 	
 }

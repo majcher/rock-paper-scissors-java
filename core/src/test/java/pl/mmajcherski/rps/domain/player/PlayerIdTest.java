@@ -1,10 +1,9 @@
 package pl.mmajcherski.rps.domain.player;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 import org.testng.annotations.Test;
-
-import pl.mmajcherski.rps.domain.player.PlayerId;
 
 public class PlayerIdTest {
 
@@ -15,6 +14,18 @@ public class PlayerIdTest {
 		
 		// when
 		new PlayerId(idValue);
+	}
+	
+	@Test
+	public void shouldHaveIdValueSetUponConstruction() {
+		// given
+		String idValue = "Test ID";
+		
+		// when
+		PlayerId playerId = new PlayerId(idValue);
+		
+		// then
+		assertThat(playerId.getValue()).isEqualTo(idValue);
 	}
 	
 	@Test

@@ -69,9 +69,4 @@ public final class HumanPlayer implements Player {
 		return Objects.equals(this.playerId, other.playerId);
 	}
 
-	@Override
-	public String toString() {
-		return "HumanPlayer [playerId=" + playerId + "]";
-	}
-
 }

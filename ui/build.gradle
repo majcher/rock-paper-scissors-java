@@ -1,31 +1,32 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
+project(':ui') {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
 
-sourceCompatibility = 1.7
-version = '1.0'
-jar {
-	manifest {
-		attributes 'Implementation-Title': 'Rock Paper Scissors UI', 'Implementation-Version': version
+	sourceCompatibility = 1.7
+	version = '1.0'
+	jar {
+		manifest {
+			attributes 'Implementation-Title': 'Rock Paper Scissors UI', 'Implementation-Version': version
+		}
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	configurations {
+	}
+
+	dependencies {
+		compile project(':core')
+	}
+
+	sourceSets {
+		main {
+			output.resourcesDir = output.classesDir
+		}
+		test {
+			output.resourcesDir = output.classesDir
+		}
 	}
 }
-
-repositories {
-	mavenCentral()
-}
-
-configurations {
-}
-
-dependencies {
-
-}
-
-sourceSets {
-	main {
-		output.resourcesDir = output.classesDir
-	}
-	test {
-		output.resourcesDir = output.classesDir
-	}
-}
-

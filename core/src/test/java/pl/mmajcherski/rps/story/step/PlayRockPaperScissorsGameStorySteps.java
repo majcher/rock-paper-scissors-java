@@ -11,13 +11,12 @@ import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
+import pl.mmajcherski.rps.domain.GameConfiguration;
 import pl.mmajcherski.rps.domain.GameEventsListener;
+import pl.mmajcherski.rps.domain.GameFinalScore;
 import pl.mmajcherski.rps.domain.GamePlayResult;
 import pl.mmajcherski.rps.domain.GamePlayStatus;
-import pl.mmajcherski.rps.domain.GameFinalScore;
 import pl.mmajcherski.rps.domain.GestureGame;
-import pl.mmajcherski.rps.domain.GameConfiguration;
-import pl.mmajcherski.rps.domain.PlayerGestureListener;
 import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
@@ -104,13 +103,17 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 	}
 	
 	@Override
-	public void onGamePlayStarted(PlayerGestureListener gameController) {
+	public void onGamePlayStarted(GameConfiguration configuration) {
 		try {
 			gameStartQueue.put(Boolean.TRUE);
 			gameStartQueue.put(Boolean.TRUE);
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
+	}
+	
+	@Override
+	public void onPlayerGestureShown(PlayerId playerId, Gesture gesture) {
 	}
 
 	@Override

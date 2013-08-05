@@ -58,4 +58,29 @@ public class GestureGameConfigurationTest {
 		assertThat(configuration.getPlayDurationInMs()).isEqualTo(gamePlayDurationInMs);
 	}
 	
+	@Test
+	public void shouldProvideDefaultPauseDurationIfNotSet() {
+		// given
+		GameConfiguration.Builder builder = new GameConfiguration.Builder();
+		
+		// when
+		GameConfiguration configuration = builder.build();
+		
+		// then
+		assertThat(configuration.getPauseDuration()).isEqualTo(GameConfiguration.Builder.DEFAULT_PAUSE_DURATION_MS);
+	}
+	
+	@Test
+	public void shouldProvideGivenPauseDurationAvailable() {
+		// given
+		GameConfiguration.Builder builder = new GameConfiguration.Builder();
+		int gamePauseDurationInMs = 5000;
+		
+		// when
+		GameConfiguration configuration = builder.withPauseDurationInMs(gamePauseDurationInMs).build();
+		
+		// then
+		assertThat(configuration.getPauseDuration()).isEqualTo(gamePauseDurationInMs);
+	}
+	
 }

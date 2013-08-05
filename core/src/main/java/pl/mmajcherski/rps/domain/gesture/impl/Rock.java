@@ -23,5 +23,15 @@ public enum Rock implements Gesture {
 
 		return (LOOSES_WITH.contains(gesture.getClass())) ? GamePlayStatus.LOOSE : GamePlayStatus.WIN;
 	}
+	
+	@Override
+	public String getName() {
+		return getClass().getSimpleName();
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
 
 }

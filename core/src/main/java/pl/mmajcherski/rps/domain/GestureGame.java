@@ -21,12 +21,11 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 
 	private final Players players = new Players();
 	private final Map<PlayerId, Gesture> playerGestures = new ConcurrentHashMap<>();
-	private final GameFinalScore gameScore;
-	
 	private final List<GameEventsListener> gameEventsListeners = new ArrayList<>();
 	
 	private final AtomicInteger currentPlay = new AtomicInteger(0);
-	private final ExecutorService executor = Executors.newSingleThreadExecutor();
+	private GameFinalScore gameScore;
+	private ExecutorService executor;
 
 	public GestureGame(GameConfiguration configuration) {
 		requireNonNull(configuration, "Game configuration not provided");
@@ -49,9 +48,17 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	public void start() {
 		checkAllPlayersJoinedTheGame();
 		
+		resetGame();
+		
 		for (int i=0; i<configuration.getPlayCount(); i++) {
 			executor.execute(this);
 		}
+	}
+	
+	private void resetGame() {
+		currentPlay.set(0);
+		gameScore = new GameFinalScore(players);
+		executor = Executors.newSingleThreadExecutor();
 	}
 	
 	@Override
@@ -70,16 +77,28 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 			fireGameOverEvent();
 			return;
 		}
+		
+		sleepForPauseDuration();
 	}
 	
 	@Override
 	public void onPlayerGesture(PlayerId playerId, Gesture gesture) {
 		playerGestures.put(playerId, gesture);
+		
+		firePlayerGestureShownEvent(playerId, gesture);
 	}
 
 	private void sleepForGamePlayDuration() {
+		sleepFor(configuration.getPlayDurationInMs());
+	}
+	
+	private void sleepForPauseDuration() {
+		sleepFor(configuration.getPauseDuration());
+	}
+	
+	private void sleepFor(long durationInMs) {
 		try {
-			Thread.sleep(configuration.getPlayDurationInMs());
+			Thread.sleep(durationInMs);
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
@@ -130,7 +149,13 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	
 	private void fireGamePlayStartedEvent() {
 		for (GameEventsListener listener : gameEventsListeners) {
-			listener.onGamePlayStarted(this);
+			listener.onGamePlayStarted(configuration);
+		}
+	}
+	
+	private void firePlayerGestureShownEvent(PlayerId playerId, Gesture gesture) {
+		for (GameEventsListener listener : gameEventsListeners) {
+			listener.onPlayerGestureShown(playerId, gesture);
 		}
 	}
 	
