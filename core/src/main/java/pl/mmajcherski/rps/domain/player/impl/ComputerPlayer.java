@@ -1,5 +1,7 @@
 package pl.mmajcherski.rps.domain.player.impl;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -13,29 +15,45 @@ import pl.mmajcherski.rps.domain.GestureGame;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
 import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.gesture.GestureRandomiser;
-import pl.mmajcherski.rps.domain.gesture.impl.Paper;
-import pl.mmajcherski.rps.domain.gesture.impl.Rock;
-import pl.mmajcherski.rps.domain.gesture.impl.Scissors;
-import pl.mmajcherski.rps.domain.gesture.impl.SimpleGestureRandomiser;
 import pl.mmajcherski.rps.domain.player.Player;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 
 public final class ComputerPlayer implements Player, GameEventsListener {
 
+	private static final double MIN_GESTURE_DELAY_MULTIPLIER = 0.5;
+	
 	private final PlayerId playerId;
-	private final Random timeRandomiser = new Random();
 	private final GestureRandomiser gestureRandomiser;
+	private final Random timeRandomiser = new Random();
 	private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
 	private PlayerGestureListener playerGestureListener;
 	
-	private ComputerPlayer(PlayerId playerId) {
-		this.playerId = playerId;
-		this.gestureRandomiser = new SimpleGestureRandomiser(Rock.INSTANCE, Paper.INSTANCE, Scissors.INSTANCE);
+	private ComputerPlayer(Builder builder) {
+		requireNonNull(builder.playerId, "No player ID given");
+		requireNonNull(builder.gestureRandomiser, "No gesture randomiser given");
+		
+		this.playerId = builder.playerId;
+		this.gestureRandomiser = builder.gestureRandomiser;
 	}
 
-	public static ComputerPlayer withId(PlayerId playerId) {
-		return new ComputerPlayer(playerId);
+	public static class Builder {
+		private PlayerId playerId;
+		private GestureRandomiser gestureRandomiser;
+		
+		public Builder withId(PlayerId playerId) {
+			this.playerId = playerId;
+			return this;
+		}
+		
+		public Builder withGestureRandomiser(GestureRandomiser gestureRandomiser) {
+			this.gestureRandomiser = gestureRandomiser;
+			return this;
+		}
+		
+		public ComputerPlayer build() {
+			return new ComputerPlayer(this);
+		}
 	}
 
 	@Override
@@ -53,14 +71,14 @@ public final class ComputerPlayer implements Player, GameEventsListener {
 
 	@Override
 	public void onGamePlayStarted(GameConfiguration configuration) {
-		double timeToShowGestureRandomMultiplier = 0.5 + 0.5 * timeRandomiser.nextDouble();
-		long timeToShowGestureInMs = (long) (timeToShowGestureRandomMultiplier * configuration.getPlayDurationInMs());
+		double gestureDelayMultiplier = MIN_GESTURE_DELAY_MULTIPLIER + ((1 - MIN_GESTURE_DELAY_MULTIPLIER) * timeRandomiser.nextDouble());
+		long gestureDelayInMs = (long) (gestureDelayMultiplier * configuration.getPlayDurationInMs());
 		executor.schedule(new Runnable() {
 			@Override
 			public void run() {
 				playerGestureListener.onPlayerGesture(playerId, gestureRandomiser.getRandomGesture());
 			}
-		}, timeToShowGestureInMs, TimeUnit.MILLISECONDS);
+		}, gestureDelayInMs, TimeUnit.MILLISECONDS);
 	}
 	
 	@Override

@@ -4,7 +4,8 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.testng.annotations.Test;
 
-import pl.mmajcherski.rps.domain.GameConfiguration;
+import pl.mmajcherski.rps.domain.gesture.Gesture;
+import pl.mmajcherski.rps.domain.gesture.impl.Rock;
 
 public class GestureGameConfigurationTest {
 		
@@ -21,7 +22,7 @@ public class GestureGameConfigurationTest {
 	}
 	
 	@Test
-	public void shouldProvideGivenPlayCountIfAvailable() {
+	public void shouldProvideGivenPlayCountIfSet() {
 		// given
 		GameConfiguration.Builder builder = new GameConfiguration.Builder();
 		int playCount = 10;
@@ -46,7 +47,7 @@ public class GestureGameConfigurationTest {
 	}
 	
 	@Test
-	public void shouldProvideGivenPlayDurationAvailable() {
+	public void shouldProvideGivenPlayDurationIfSet() {
 		// given
 		GameConfiguration.Builder builder = new GameConfiguration.Builder();
 		int gamePlayDurationInMs = 10000;
@@ -71,7 +72,7 @@ public class GestureGameConfigurationTest {
 	}
 	
 	@Test
-	public void shouldProvideGivenPauseDurationAvailable() {
+	public void shouldProvideGivenPauseDurationIfSet() {
 		// given
 		GameConfiguration.Builder builder = new GameConfiguration.Builder();
 		int gamePauseDurationInMs = 5000;
@@ -81,6 +82,31 @@ public class GestureGameConfigurationTest {
 		
 		// then
 		assertThat(configuration.getPauseDuration()).isEqualTo(gamePauseDurationInMs);
+	}
+	
+	@Test
+	public void shouldProvideDefaultAvailableGesturesIfNotSet() {
+		// given
+		GameConfiguration.Builder builder = new GameConfiguration.Builder();
+		
+		// when
+		GameConfiguration configuration = builder.build();
+		
+		// then
+		assertThat(configuration.getAvailableGestures()).isEqualTo(GameConfiguration.Builder.DEFAULT_AVAILABLE_GESTURES);
+	}
+	
+	@Test
+	public void shouldProvideGivenAvailableGesturesIfSet() {
+		// given
+		GameConfiguration.Builder builder = new GameConfiguration.Builder();
+		Gesture[] availableGestures = new Gesture[] {Rock.INSTANCE};
+		
+		// when
+		GameConfiguration configuration = builder.withAvailableGestures(availableGestures).build();
+		
+		// then
+		assertThat(configuration.getAvailableGestures()).isEqualTo(availableGestures);
 	}
 	
 }

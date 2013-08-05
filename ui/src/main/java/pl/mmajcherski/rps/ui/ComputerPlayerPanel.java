@@ -2,6 +2,8 @@ package pl.mmajcherski.rps.ui;
 
 import javax.swing.JPanel;
 
+import pl.mmajcherski.rps.domain.gesture.Gesture;
+import pl.mmajcherski.rps.domain.gesture.impl.SimpleGestureRandomiser;
 import pl.mmajcherski.rps.domain.player.impl.ComputerPlayer;
 
 public class ComputerPlayerPanel extends PlayerPanel {
@@ -11,7 +13,13 @@ public class ComputerPlayerPanel extends PlayerPanel {
 	public ComputerPlayerPanel(GestureGameController controller) {
 		super(controller);
 		
-		controller.addPlayer(ComputerPlayer.withId(getPlayerId()));
+		Gesture[] gestures = controller.getAvailableGestures();
+		ComputerPlayer computerPlayer = new ComputerPlayer.Builder()
+			.withId(getPlayerId())
+			.withGestureRandomiser(new SimpleGestureRandomiser(gestures))
+			.build();
+		
+		controller.addPlayer(computerPlayer);
 	}
 
 	@Override

@@ -13,12 +13,19 @@ import org.testng.annotations.Test;
 import pl.mmajcherski.rps.domain.GameConfiguration;
 import pl.mmajcherski.rps.domain.GestureGame;
 import pl.mmajcherski.rps.domain.gesture.Gesture;
+import pl.mmajcherski.rps.domain.gesture.impl.Paper;
+import pl.mmajcherski.rps.domain.gesture.impl.Rock;
+import pl.mmajcherski.rps.domain.gesture.impl.Scissors;
+import pl.mmajcherski.rps.domain.gesture.impl.SimpleGestureRandomiser;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 
 public class ComputerPlayerTest {
 
+	private static final int TEST_GAME_DURATION = 200;
+	
 	@Mock
 	private GestureGame game;
+	private GameConfiguration configuration;
 	private ComputerPlayer player;
 	
 	@BeforeMethod
@@ -28,21 +35,24 @@ public class ComputerPlayerTest {
 	
 	@BeforeMethod
 	public void createPlayer() {
-		player = ComputerPlayer.withId(new PlayerId("Test computer player"));
+		configuration = new GameConfiguration.Builder()
+			.withGameDurationInMs(TEST_GAME_DURATION)
+			.build();
+		
+		player = new ComputerPlayer.Builder()
+			.withId(new PlayerId("Test computer player"))
+			.withGestureRandomiser(new SimpleGestureRandomiser(Rock.INSTANCE, Paper.INSTANCE, Scissors.INSTANCE))
+			.build();
 	}
 	
 	@Test
 	public void shouldShowGestureInGamePlayPeriod() throws InterruptedException {
 		// given
-		GameConfiguration configuration = new GameConfiguration.Builder()
-			.withGameDurationInMs(100)
-			.build();
-		
 		player.join(game);
 		
 		// when
 		player.onGamePlayStarted(configuration);
-		Thread.sleep(100);
+		Thread.sleep(TEST_GAME_DURATION);
 		
 		// then
 		verify(game).onPlayerGesture(eq(player.getId()), any(Gesture.class));
@@ -52,16 +62,34 @@ public class ComputerPlayerTest {
 	public void shouldNotShowGestureBeforeHalfOfGamePlayPeriod() throws InterruptedException {
 		// given
 		GameConfiguration configuration = new GameConfiguration.Builder()
-			.withGameDurationInMs(100)
+			.withGameDurationInMs(TEST_GAME_DURATION)
 			.build();
 		
 		player.join(game);
 		
 		// when
 		player.onGamePlayStarted(configuration);
-		Thread.sleep(25);
+		Thread.sleep(TEST_GAME_DURATION / 4);
+		
 		
 		// then
 		verify(game, never()).onPlayerGesture(eq(player.getId()), any(Gesture.class));
+	}
+	
+	@Test(invocationCount = 10)
+	public void shouldShowOnlyGesturesUsedToCreatePlayer() throws InterruptedException {
+		ComputerPlayer playerWithRockGestureOnly = new ComputerPlayer.Builder()
+			.withId(new PlayerId("Test computer player"))
+			.withGestureRandomiser(new SimpleGestureRandomiser(Rock.INSTANCE))
+			.build();
+		
+		playerWithRockGestureOnly.join(game);
+		
+		// when
+		playerWithRockGestureOnly.onGamePlayStarted(configuration);
+		Thread.sleep(TEST_GAME_DURATION);
+		
+		// then
+		verify(game).onPlayerGesture(eq(player.getId()), eq(Rock.INSTANCE));
 	}
 }

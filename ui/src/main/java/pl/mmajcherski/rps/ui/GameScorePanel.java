@@ -26,9 +26,10 @@ import pl.mmajcherski.rps.ui.common.TransparentJPanel;
 
 public class GameScorePanel extends JPanel implements ActionListener, GameEventsListener {
 
-	private static final String START_CMD = "start";
-
 	private static final long serialVersionUID = 8758805484090403177L;
+
+	private static final String START_CMD = "start";
+	private static final int PROGRESS_BAR_STEPS = 100;
 
 	private final GestureGameController gameController;
 	private final PlayerId leftPlayerId;
@@ -103,14 +104,16 @@ public class GameScorePanel extends JPanel implements ActionListener, GameEvents
 		scorePanel.add(rightPlayerScore);
 		
 		JPanel progressBarPanel = new TransparentJPanel();
-		progressBar = new JProgressBar(0, gameController.getGameDurationMs());
+		progressBar = new JProgressBar(0, PROGRESS_BAR_STEPS);
 		progressBar.setValue(0);
 		progressBar.setStringPainted(true);
 		
-		progressBarTimer = new Timer(100, new ActionListener() {
+		int progressBarStepInMs = (int) (gameController.getGameDurationMs() / PROGRESS_BAR_STEPS);
+		
+		progressBarTimer = new Timer(progressBarStepInMs, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				progressBar.setValue(progressBar.getValue() + 100);
+				progressBar.setValue(progressBar.getValue() + 1);
 			}
 		});
 
@@ -198,7 +201,7 @@ public class GameScorePanel extends JPanel implements ActionListener, GameEvents
 			public void run() {
 				updateScorePanel(gameScore);
 				progressBarTimer.stop();
-				progressBar.setValue(gameController.getGameDurationMs());
+				progressBar.setValue(PROGRESS_BAR_STEPS);
 			}
 		});
 	}

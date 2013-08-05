@@ -1,8 +1,5 @@
 package pl.mmajcherski.rps.ui;
 
-import java.util.Arrays;
-import java.util.List;
-
 import pl.mmajcherski.rps.domain.GameConfiguration;
 import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.GestureGame;
@@ -19,14 +16,16 @@ public class GestureGameController {
 	
 	private GameMode gameMode;
 	private GestureGame game;
+	private GameConfiguration configuration;
 	
 	public void initGame(GameMode gameMode) {
 		this.gameMode = gameMode;
 		
-		GameConfiguration configuration = new GameConfiguration.Builder()
+		configuration = new GameConfiguration.Builder()
 			.withGamePlayCount(10)
 			.withGameDurationInMs(GAME_DURATION_MS)
 			.withPauseDurationInMs(GAME_PAUSE_MS)
+			.withAvailableGestures(Rock.INSTANCE, Paper.INSTANCE, Scissors.INSTANCE)
 			.build();
 		
 		game = new GestureGame(configuration);
@@ -48,12 +47,12 @@ public class GestureGameController {
 		game.start();
 	}
 	
-	public int getGameDurationMs() {
-		return GAME_DURATION_MS;
+	public long getGameDurationMs() {
+		return configuration.getPlayDurationInMs();
 	}
 
-	public List<Gesture> getGestures() {
-		return Arrays.asList(new Gesture[] {Rock.INSTANCE, Paper.INSTANCE, Scissors.INSTANCE});
+	public Gesture[] getAvailableGestures() {
+		return configuration.getAvailableGestures();
 	}
 	
 }

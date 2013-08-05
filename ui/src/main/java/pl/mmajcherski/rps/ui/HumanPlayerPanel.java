@@ -41,7 +41,7 @@ public class HumanPlayerPanel extends PlayerPanel {
 		
 		panel.setLayout(new FlowLayout());
 		
-		for (final Gesture gesture : controller.getGestures()) {
+		for (final Gesture gesture : controller.getAvailableGestures()) {
 			JButton gestureButton = new BlueJButton(gesture.getName());
 			gestureButton.setActionCommand(gesture.getName());
 			gestureButton.addActionListener(new ActionListener() {
