@@ -8,7 +8,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,7 +21,6 @@ import pl.mmajcherski.rps.domain.GameFinalScore;
 import pl.mmajcherski.rps.domain.GamePlayResult;
 import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.player.PlayerId;
-import pl.mmajcherski.rps.ui.common.BlueJButton;
 import pl.mmajcherski.rps.ui.common.Colors;
 import pl.mmajcherski.rps.ui.common.TransparentJPanel;
 
