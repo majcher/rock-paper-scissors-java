@@ -1,9 +1,13 @@
 project(':ui') {
+	apply plugin:'application'
 	apply plugin: 'java'
 	apply plugin: 'eclipse'
 
 	sourceCompatibility = 1.7
 	version = '1.0'
+	
+	mainClassName = "pl.mmajcherski.rps.ui.GestureGameGui"
+	
 	jar {
 		manifest {
 			attributes 'Implementation-Title': 'Rock Paper Scissors UI', 'Implementation-Version': version
@@ -20,13 +24,5 @@ project(':ui') {
 	dependencies {
 		compile project(':core')
 	}
-
-	sourceSets {
-		main {
-			output.resourcesDir = output.classesDir
-		}
-		test {
-			output.resourcesDir = output.classesDir
-		}
-	}
+	
 }

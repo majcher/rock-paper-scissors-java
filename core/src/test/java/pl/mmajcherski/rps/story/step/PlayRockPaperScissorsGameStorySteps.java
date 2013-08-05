@@ -23,7 +23,7 @@ import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 
 public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 
-	private static final long GAME_PLAY_PERIOD_IN_MS = 50;
+	private static final long GAME_PLAY_PERIOD_IN_MS = 300;
 	
 	private HumanPlayer player;
 	private HumanPlayer opponent;

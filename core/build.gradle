@@ -33,13 +33,5 @@ project(':core') {
 			println "Executing test ${descriptor.name} [${descriptor.className}] - ${result.resultType}"
 		}
 	}
-
-	sourceSets {
-		main {
-			output.resourcesDir = output.classesDir
-		}
-		test {
-			output.resourcesDir = output.classesDir
-		}
-	}
+	
 }
