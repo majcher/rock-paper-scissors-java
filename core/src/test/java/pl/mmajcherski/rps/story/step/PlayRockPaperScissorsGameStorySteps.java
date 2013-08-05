@@ -12,16 +12,18 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
 import pl.mmajcherski.rps.domain.GameConfiguration;
-import pl.mmajcherski.rps.domain.GameEventsListener;
 import pl.mmajcherski.rps.domain.GameFinalScore;
 import pl.mmajcherski.rps.domain.GamePlayResult;
 import pl.mmajcherski.rps.domain.GamePlayStatus;
 import pl.mmajcherski.rps.domain.GestureGame;
 import pl.mmajcherski.rps.domain.gesture.Gesture;
+import pl.mmajcherski.rps.domain.listener.OnGameOverListener;
+import pl.mmajcherski.rps.domain.listener.OnGamePlayResultListener;
+import pl.mmajcherski.rps.domain.listener.OnGamePlayStartedListener;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 
-public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
+public class PlayRockPaperScissorsGameStorySteps implements OnGamePlayStartedListener, OnGamePlayResultListener, OnGameOverListener {
 
 	private static final long GAME_PLAY_PERIOD_IN_MS = 300;
 	
@@ -41,7 +43,9 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 				.build();
 		
 		GestureGame game = new GestureGame(configuration);
-		game.registerEventsListener(this);
+		game.addEventListener((OnGamePlayStartedListener) this);
+		game.addEventListener((OnGamePlayResultListener) this);
+		game.addEventListener((OnGameOverListener) this);
 		
 		HumanPlayer player = HumanPlayer.withId(playerId);
 		player.join(game);
@@ -112,10 +116,6 @@ public class PlayRockPaperScissorsGameStorySteps implements GameEventsListener {
 		}
 	}
 	
-	@Override
-	public void onPlayerGestureShown(PlayerId playerId, Gesture gesture) {
-	}
-
 	@Override
 	public void onGamePlayResult(GamePlayResult gamePlayResult, GameFinalScore gameScore) {
 		try {

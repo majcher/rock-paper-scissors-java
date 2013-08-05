@@ -8,17 +8,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import pl.mmajcherski.rps.domain.GameConfiguration;
-import pl.mmajcherski.rps.domain.GameEventsListener;
-import pl.mmajcherski.rps.domain.GameFinalScore;
-import pl.mmajcherski.rps.domain.GamePlayResult;
 import pl.mmajcherski.rps.domain.GestureGame;
 import pl.mmajcherski.rps.domain.PlayerGestureListener;
-import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.gesture.GestureRandomiser;
+import pl.mmajcherski.rps.domain.listener.OnGamePlayStartedListener;
 import pl.mmajcherski.rps.domain.player.Player;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 
-public final class ComputerPlayer implements Player, GameEventsListener {
+public final class ComputerPlayer implements Player {
 
 	private static final double MIN_GESTURE_DELAY_MULTIPLIER = 0.5;
 	
@@ -66,31 +63,35 @@ public final class ComputerPlayer implements Player, GameEventsListener {
 		this.playerGestureListener = game;
 		
 		game.add(this);
-		game.registerEventsListener(this);
+		
+		game.addEventListener(new OnGamePlayStartedListener() {
+			
+			@Override
+			public void onGamePlayStarted(GameConfiguration configuration) {
+				long gamePlayDuration = configuration.getPlayDurationInMs();
+				long gestureDelayInMs = calculateGestureDelay(gamePlayDuration);
+				
+				showRandomGestureWithDelay(gestureDelayInMs);
+			}
+			
+		});
 	}
-
-	@Override
-	public void onGamePlayStarted(GameConfiguration configuration) {
+	
+	private long calculateGestureDelay(long gamePlayDuration) {
 		double gestureDelayMultiplier = MIN_GESTURE_DELAY_MULTIPLIER + ((1 - MIN_GESTURE_DELAY_MULTIPLIER) * timeRandomiser.nextDouble());
-		long gestureDelayInMs = (long) (gestureDelayMultiplier * configuration.getPlayDurationInMs());
+		long gestureDelayInMs = (long) (gestureDelayMultiplier * gamePlayDuration);
+		return gestureDelayInMs;
+	}
+	
+	private void showRandomGestureWithDelay(final long gestureDelayInMs) {
 		executor.schedule(new Runnable() {
+			
 			@Override
 			public void run() {
 				playerGestureListener.onPlayerGesture(playerId, gestureRandomiser.getRandomGesture());
 			}
+			
 		}, gestureDelayInMs, TimeUnit.MILLISECONDS);
-	}
-	
-	@Override
-	public void onPlayerGestureShown(PlayerId playerId, Gesture gesture) {
-	}
-
-	@Override
-	public void onGamePlayResult(GamePlayResult gamePlayResult, GameFinalScore gameScore) {
-	}
-
-	@Override
-	public void onGameOver(GameFinalScore gameScore) {
 	}
 
 }

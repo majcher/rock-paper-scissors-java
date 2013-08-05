@@ -11,6 +11,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import pl.mmajcherski.rps.domain.gesture.Gesture;
+import pl.mmajcherski.rps.domain.listener.OnGameOverListener;
+import pl.mmajcherski.rps.domain.listener.OnGamePlayResultListener;
+import pl.mmajcherski.rps.domain.listener.OnGamePlayStartedListener;
+import pl.mmajcherski.rps.domain.listener.OnGameStartedListener;
+import pl.mmajcherski.rps.domain.listener.OnPlayerGestureShownListener;
 import pl.mmajcherski.rps.domain.player.Player;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 import pl.mmajcherski.rps.domain.player.Players;
@@ -21,7 +26,12 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 
 	private final Players players = new Players();
 	private final Map<PlayerId, Gesture> playerGestures = new ConcurrentHashMap<>();
-	private final List<GameEventsListener> gameEventsListeners = new ArrayList<>();
+	
+	private List<OnGameStartedListener> onGameStartedListeners = new ArrayList<>();
+	private List<OnGamePlayStartedListener> onGamePlayStartedListeners = new ArrayList<>();
+	private List<OnGamePlayResultListener> onGamePlayResultListeners = new ArrayList<>();
+	private List<OnGameOverListener> onGameOverListeners = new ArrayList<>();
+	private List<OnPlayerGestureShownListener> onPlayerGestureShownListeners = new ArrayList<>();
 	
 	private final AtomicInteger currentPlay = new AtomicInteger(0);
 	private GameFinalScore gameScore;
@@ -41,10 +51,6 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 		players.add(player);
 	}
 	
-	public void registerEventsListener(GameEventsListener gameEventsListener) {
-		this.gameEventsListeners.add(gameEventsListener);
-	}
-	
 	public void start() {
 		checkAllPlayersJoinedTheGame();
 		
@@ -53,6 +59,8 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 		for (int i=0; i<configuration.getPlayCount(); i++) {
 			executor.execute(this);
 		}
+		
+		fireGameStartedEvent();
 	}
 	
 	private void resetGame() {
@@ -147,26 +155,52 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 		return currentPlay.get() >= configuration.getPlayCount();
 	}
 	
+	public void addEventListener(OnGameStartedListener onGameStartedListener) {
+		this.onGameStartedListeners.add(onGameStartedListener);
+	}
+	
+	public void addEventListener(OnGamePlayStartedListener onGamePlayStartedListener) {
+		this.onGamePlayStartedListeners.add(onGamePlayStartedListener);
+	}
+	
+	public void addEventListener(OnGamePlayResultListener onGamePlayResultListener) {
+		this.onGamePlayResultListeners.add(onGamePlayResultListener);
+	}
+	
+	public void addEventListener(OnGameOverListener onGameOverListener) {
+		this.onGameOverListeners.add(onGameOverListener);
+	}
+	
+	public void addEventListener(OnPlayerGestureShownListener onPlayerGestureShownListener) {
+		this.onPlayerGestureShownListeners.add(onPlayerGestureShownListener);
+	}
+	
+	private void fireGameStartedEvent() {
+		for (OnGameStartedListener listener : onGameStartedListeners) {
+			listener.onGameStarted(configuration);
+		}
+	}
+	
 	private void fireGamePlayStartedEvent() {
-		for (GameEventsListener listener : gameEventsListeners) {
+		for (OnGamePlayStartedListener listener : onGamePlayStartedListeners) {
 			listener.onGamePlayStarted(configuration);
 		}
 	}
 	
 	private void firePlayerGestureShownEvent(PlayerId playerId, Gesture gesture) {
-		for (GameEventsListener listener : gameEventsListeners) {
+		for (OnPlayerGestureShownListener listener : onPlayerGestureShownListeners) {
 			listener.onPlayerGestureShown(playerId, gesture);
 		}
 	}
 	
 	private void fireGamePlayResultEvent(GamePlayResult gamePlayResult) {
-		for (GameEventsListener listener : gameEventsListeners) {
+		for (OnGamePlayResultListener listener : onGamePlayResultListeners) {
 			listener.onGamePlayResult(gamePlayResult, gameScore);
 		}
 	}
 	
 	private void fireGameOverEvent() {
-		for (GameEventsListener listener : gameEventsListeners) {
+		for (OnGameOverListener listener : onGameOverListeners) {
 			listener.onGameOver(gameScore);
 		}
 	}

@@ -5,6 +5,8 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
@@ -17,6 +19,7 @@ import pl.mmajcherski.rps.domain.gesture.impl.Paper;
 import pl.mmajcherski.rps.domain.gesture.impl.Rock;
 import pl.mmajcherski.rps.domain.gesture.impl.Scissors;
 import pl.mmajcherski.rps.domain.gesture.impl.SimpleGestureRandomiser;
+import pl.mmajcherski.rps.domain.listener.OnGamePlayStartedListener;
 import pl.mmajcherski.rps.domain.player.PlayerId;
 
 public class ComputerPlayerTest {
@@ -25,6 +28,9 @@ public class ComputerPlayerTest {
 	
 	@Mock
 	private GestureGame game;
+	@Captor
+	private ArgumentCaptor<OnGamePlayStartedListener> onGamePlayStartedListenerCaptor;
+	
 	private GameConfiguration configuration;
 	private ComputerPlayer player;
 	
@@ -51,7 +57,8 @@ public class ComputerPlayerTest {
 		player.join(game);
 		
 		// when
-		player.onGamePlayStarted(configuration);
+		verify(game).addEventListener(onGamePlayStartedListenerCaptor.capture());
+		onGamePlayStartedListenerCaptor.getValue().onGamePlayStarted(configuration);
 		Thread.sleep(TEST_GAME_DURATION);
 		
 		// then
@@ -68,9 +75,9 @@ public class ComputerPlayerTest {
 		player.join(game);
 		
 		// when
-		player.onGamePlayStarted(configuration);
+		verify(game).addEventListener(onGamePlayStartedListenerCaptor.capture());
+		onGamePlayStartedListenerCaptor.getValue().onGamePlayStarted(configuration);
 		Thread.sleep(TEST_GAME_DURATION / 4);
-		
 		
 		// then
 		verify(game, never()).onPlayerGesture(eq(player.getId()), any(Gesture.class));
@@ -86,7 +93,8 @@ public class ComputerPlayerTest {
 		playerWithRockGestureOnly.join(game);
 		
 		// when
-		playerWithRockGestureOnly.onGamePlayStarted(configuration);
+		verify(game).addEventListener(onGamePlayStartedListenerCaptor.capture());
+		onGamePlayStartedListenerCaptor.getValue().onGamePlayStarted(configuration);
 		Thread.sleep(TEST_GAME_DURATION);
 		
 		// then

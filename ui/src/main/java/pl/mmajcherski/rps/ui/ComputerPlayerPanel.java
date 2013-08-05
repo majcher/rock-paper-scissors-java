@@ -1,16 +1,17 @@
 package pl.mmajcherski.rps.ui;
 
-import javax.swing.JPanel;
-
 import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.gesture.impl.SimpleGestureRandomiser;
 import pl.mmajcherski.rps.domain.player.impl.ComputerPlayer;
+import pl.mmajcherski.rps.ui.GestureGameController.PlayerSide;
 
 public class ComputerPlayerPanel extends PlayerPanel {
 
 	private static final long serialVersionUID = -4479805048347377250L;
 
-	public ComputerPlayerPanel(GestureGameController controller) {
+	private static final String COMPUTER_LABEL = "COMPUTER";
+
+	public ComputerPlayerPanel(GestureGameController controller, PlayerSide playerSide) {
 		super(controller);
 		
 		Gesture[] gestures = controller.getAvailableGestures();
@@ -19,17 +20,12 @@ public class ComputerPlayerPanel extends PlayerPanel {
 			.withGestureRandomiser(new SimpleGestureRandomiser(gestures))
 			.build();
 		
-		controller.addPlayer(computerPlayer);
-	}
-
-	@Override
-	protected void fillPlayersPanel(JPanel panel) {
-		
+		controller.addPlayer(computerPlayer, playerSide);
 	}
 
 	@Override
 	protected String getHeaderLabel() {
-		return "COMPUTER";
+		return COMPUTER_LABEL;
 	}
 
 }

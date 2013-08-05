@@ -6,7 +6,7 @@ project(':ui') {
 	sourceCompatibility = 1.7
 	version = '1.0'
 	
-	mainClassName = "pl.mmajcherski.rps.ui.GestureGameGui"
+	mainClassName = "pl.mmajcherski.rps.ui.Main"
 	
 	jar {
 		manifest {
