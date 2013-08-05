@@ -26,6 +26,9 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 
 	private final Players players = new Players();
 	private final Map<PlayerId, Gesture> playerGestures = new ConcurrentHashMap<>();
+	private final AtomicInteger currentPlay = new AtomicInteger(0);
+	private GameFinalScore gameScore;
+	private ExecutorService executor;
 	
 	private List<OnGameStartedListener> onGameStartedListeners = new ArrayList<>();
 	private List<OnGamePlayStartedListener> onGamePlayStartedListeners = new ArrayList<>();
@@ -33,10 +36,6 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	private List<OnGameOverListener> onGameOverListeners = new ArrayList<>();
 	private List<OnPlayerGestureShownListener> onPlayerGestureShownListeners = new ArrayList<>();
 	
-	private final AtomicInteger currentPlay = new AtomicInteger(0);
-	private GameFinalScore gameScore;
-	private ExecutorService executor;
-
 	public GestureGame(GameConfiguration configuration) {
 		requireNonNull(configuration, "Game configuration not provided");
 		
@@ -61,6 +60,12 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 		}
 		
 		fireGameStartedEvent();
+	}
+	
+	public void stop() {
+		if (executor != null) {
+			executor.shutdownNow();
+		}
 	}
 	
 	private void resetGame() {

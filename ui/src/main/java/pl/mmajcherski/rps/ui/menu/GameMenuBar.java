@@ -42,7 +42,7 @@ public class GameMenuBar extends JMenuBar {
 		computerItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gameMainFrame.showMainGamePanelInGameMode(gameMode);
+				gameMainFrame.prepareGame(gameMode);
 			}
 		});
 		return computerItem;

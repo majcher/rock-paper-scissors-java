@@ -25,7 +25,7 @@ import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 
 public class PlayRockPaperScissorsGameStorySteps implements OnGamePlayStartedListener, OnGamePlayResultListener, OnGameOverListener {
 
-	private static final long GAME_PLAY_PERIOD_IN_MS = 300;
+	private static final long GAME_PLAY_PERIOD_IN_MS = 1000;
 	
 	private HumanPlayer player;
 	private HumanPlayer opponent;

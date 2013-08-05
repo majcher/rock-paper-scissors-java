@@ -57,6 +57,10 @@ public class GestureGameController {
 		game.start();
 	}
 	
+	public void stopGame() {
+		game.stop();
+	}
+	
 	public long getGameDurationMs() {
 		return configuration.getPlayDurationInMs();
 	}

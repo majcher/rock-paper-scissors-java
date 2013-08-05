@@ -11,8 +11,7 @@ public class GameMainFrame extends JFrame {
 	private static final String GAME_NAME = "Rock, Paper, Scissors";
 	private static final GameMode DEFAULT_GAME_MODE = GameMode.HUMAN_COMPUTER;
 	
-	private final GestureGameController gameController = new GestureGameController();
-
+	private GestureGameController gameController;
 	private GestureGameMainPanel mainPanel;
 
 	public GameMainFrame() {
@@ -23,12 +22,27 @@ public class GameMainFrame extends JFrame {
 		
 		setJMenuBar(new GameMenuBar(this));
 
-		showMainGamePanelInGameMode(DEFAULT_GAME_MODE);
+		prepareGame(DEFAULT_GAME_MODE);
 	}
 	
-	public void showMainGamePanelInGameMode(GameMode gameMode) {
+	public void prepareGame(GameMode gameMode) {
+		stopPreviousGameIfExist();
+		setupNewGameInMode(gameMode);
+		updateGameView();
+	}
+
+	private void stopPreviousGameIfExist() {
+		if (gameController != null) {
+			gameController.stopGame();
+		}
+	}
+	
+	private void setupNewGameInMode(GameMode gameMode) {
+		gameController = new GestureGameController();
 		gameController.setupGameInMode(gameMode);
-		
+	}
+	
+	private void updateGameView() {
 		if (mainPanel != null) {
 			getContentPane().remove(mainPanel);
 		}
@@ -39,5 +53,6 @@ public class GameMainFrame extends JFrame {
 		getContentPane().revalidate();
 		getContentPane().repaint();
 	}
+
 	
 }

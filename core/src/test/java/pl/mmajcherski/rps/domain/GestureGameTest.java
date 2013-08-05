@@ -57,6 +57,5 @@ public class GestureGameTest {
 		// when
 		game.start();
 	}
-
 	
 }

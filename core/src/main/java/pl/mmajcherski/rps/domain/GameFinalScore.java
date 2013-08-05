@@ -1,7 +1,7 @@
 package pl.mmajcherski.rps.domain;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import pl.mmajcherski.rps.domain.player.PlayerId;
 import pl.mmajcherski.rps.domain.player.Players;
@@ -9,7 +9,7 @@ import pl.mmajcherski.rps.domain.player.Players;
 public class GameFinalScore {
 
 	private final Players players;
-	private final Map<PlayerId, Integer> playersScore = new HashMap<>();
+	private final Map<PlayerId, Integer> playersScore = new ConcurrentHashMap<>();
 	
 	public GameFinalScore(Players players) {
 		this.players = players;

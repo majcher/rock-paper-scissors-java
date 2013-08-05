@@ -24,7 +24,7 @@ import pl.mmajcherski.rps.domain.player.PlayerId;
 
 public class ComputerPlayerTest {
 
-	private static final int TEST_GAME_DURATION = 200;
+	private static final int TEST_GAME_DURATION = 1000;
 	
 	@Mock
 	private GestureGame game;
