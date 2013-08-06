@@ -7,8 +7,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import pl.mmajcherski.rps.ui.GameMainFrame;
 import pl.mmajcherski.rps.ui.GameMode;
+import pl.mmajcherski.rps.ui.component.GameMainFrame;
 
 public class GameMenuBar extends JMenuBar {
 

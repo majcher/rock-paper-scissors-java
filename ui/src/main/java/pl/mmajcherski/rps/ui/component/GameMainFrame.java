@@ -1,7 +1,9 @@
-package pl.mmajcherski.rps.ui;
+package pl.mmajcherski.rps.ui.component;
 
 import javax.swing.JFrame;
 
+import pl.mmajcherski.rps.ui.GameMode;
+import pl.mmajcherski.rps.ui.GestureGameController;
 import pl.mmajcherski.rps.ui.menu.GameMenuBar;
 
 public class GameMainFrame extends JFrame {

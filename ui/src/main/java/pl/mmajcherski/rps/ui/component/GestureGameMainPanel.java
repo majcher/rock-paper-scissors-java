@@ -1,10 +1,11 @@
-package pl.mmajcherski.rps.ui;
+package pl.mmajcherski.rps.ui.component;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
+import pl.mmajcherski.rps.ui.GestureGameController;
 import pl.mmajcherski.rps.ui.GestureGameController.PlayerSide;
 
 public class GestureGameMainPanel extends JPanel {

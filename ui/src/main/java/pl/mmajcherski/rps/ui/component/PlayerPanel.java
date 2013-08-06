@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps.ui;
+package pl.mmajcherski.rps.ui.component;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,6 +19,7 @@ import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.listener.OnGamePlayStartedListener;
 import pl.mmajcherski.rps.domain.listener.OnPlayerGestureShownListener;
 import pl.mmajcherski.rps.domain.player.PlayerId;
+import pl.mmajcherski.rps.ui.GestureGameController;
 import pl.mmajcherski.rps.ui.common.Colors;
 import pl.mmajcherski.rps.ui.common.GradientJPanel;
 import pl.mmajcherski.rps.ui.common.TransparentJPanel;

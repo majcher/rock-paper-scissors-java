@@ -1,8 +1,9 @@
-package pl.mmajcherski.rps.ui;
+package pl.mmajcherski.rps.ui.component;
 
 import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.gesture.impl.SimpleGestureRandomiser;
 import pl.mmajcherski.rps.domain.player.impl.ComputerPlayer;
+import pl.mmajcherski.rps.ui.GestureGameController;
 import pl.mmajcherski.rps.ui.GestureGameController.PlayerSide;
 
 public class ComputerPlayerPanel extends PlayerPanel {

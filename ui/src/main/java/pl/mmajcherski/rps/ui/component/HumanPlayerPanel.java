@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps.ui;
+package pl.mmajcherski.rps.ui.component;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +16,7 @@ import pl.mmajcherski.rps.domain.gesture.Gesture;
 import pl.mmajcherski.rps.domain.listener.OnGamePlayResultListener;
 import pl.mmajcherski.rps.domain.listener.OnGamePlayStartedListener;
 import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
+import pl.mmajcherski.rps.ui.GestureGameController;
 import pl.mmajcherski.rps.ui.GestureGameController.PlayerSide;
 import pl.mmajcherski.rps.ui.common.BlueJButton;
 

@@ -1,4 +1,4 @@
-package pl.mmajcherski.rps.ui;
+package pl.mmajcherski.rps.ui.component;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,10 +9,8 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import pl.mmajcherski.rps.ui.GestureGameController;
 import pl.mmajcherski.rps.ui.common.TransparentJPanel;
-import pl.mmajcherski.rps.ui.component.GameControlPanel;
-import pl.mmajcherski.rps.ui.component.GamePlayProgressPanel;
-import pl.mmajcherski.rps.ui.component.GameScorePanel;
 
 public class GameCentralPanel extends JPanel {
 
