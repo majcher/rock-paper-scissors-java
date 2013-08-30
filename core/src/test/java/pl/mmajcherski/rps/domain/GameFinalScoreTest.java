@@ -15,7 +15,7 @@ public class GameFinalScoreTest {
 	
 	@BeforeMethod
 	public void createGameScore() {
-		gameScore = new GameFinalScore();
+		gameScore = GameFinalScore.initialScore();
 	}
 	
 	@Test
@@ -28,13 +28,23 @@ public class GameFinalScoreTest {
 	}
 	
 	@Test
-	public void shouldIncreasePlayersScore() {
+	public void shouldReturnIncreasedPlayersScore() {
+		// when
+		gameScore = gameScore.increaseScoreForPlayer(ANY_PLAYER_ID);
+		int score = gameScore.of(ANY_PLAYER_ID);
+		
+		// then
+		assertThat(score).isEqualTo(1);
+	}
+	
+	@Test
+	public void shouldNotMutateOnIncrease() {
 		// when
 		gameScore.increaseScoreForPlayer(ANY_PLAYER_ID);
 		int score = gameScore.of(ANY_PLAYER_ID);
 		
 		// then
-		assertThat(score).isEqualTo(1);
+		assertThat(score).isEqualTo(0);
 	}
 	
 }

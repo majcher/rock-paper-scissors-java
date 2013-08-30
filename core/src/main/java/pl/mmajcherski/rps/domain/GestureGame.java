@@ -30,11 +30,11 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	private GameFinalScore gameScore;
 	private ExecutorService executor;
 	
-	private List<OnGameStartedListener> onGameStartedListeners = new ArrayList<>();
-	private List<OnGamePlayStartedListener> onGamePlayStartedListeners = new ArrayList<>();
-	private List<OnGamePlayResultListener> onGamePlayResultListeners = new ArrayList<>();
-	private List<OnGameOverListener> onGameOverListeners = new ArrayList<>();
-	private List<OnPlayerGestureShownListener> onPlayerGestureShownListeners = new ArrayList<>();
+	private final List<OnGameStartedListener> onGameStartedListeners = new ArrayList<>();
+	private final List<OnGamePlayStartedListener> onGamePlayStartedListeners = new ArrayList<>();
+	private final List<OnGamePlayResultListener> onGamePlayResultListeners = new ArrayList<>();
+	private final List<OnGameOverListener> onGameOverListeners = new ArrayList<>();
+	private final List<OnPlayerGestureShownListener> onPlayerGestureShownListeners = new ArrayList<>();
 	
 	public GestureGame(GameConfiguration configuration) {
 		requireNonNull(configuration, "Game configuration not provided");
@@ -69,7 +69,7 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	
 	private void resetGame() {
 		currentPlay.set(0);
-		gameScore = new GameFinalScore();
+		gameScore = GameFinalScore.initialScore();
 		executor = Executors.newSingleThreadExecutor();
 	}
 	
@@ -151,7 +151,7 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	
 	private void updatePlayerScoreWithGamePlayStatus(PlayerId playerId, GamePlayStatus gamePlayStatus) {
 		if (gamePlayStatus == GamePlayStatus.WIN) {
-			gameScore.increaseScoreForPlayer(playerId);
+			gameScore = gameScore.increaseScoreForPlayer(playerId);
 		}
 	}
 	
