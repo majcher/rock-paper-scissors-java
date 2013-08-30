@@ -5,50 +5,36 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import pl.mmajcherski.rps.domain.GameFinalScore;
 import pl.mmajcherski.rps.domain.player.PlayerId;
-import pl.mmajcherski.rps.domain.player.Players;
-import pl.mmajcherski.rps.domain.player.impl.HumanPlayer;
 
 public class GameFinalScoreTest {
 
-	private static final PlayerId PLAYER_ID_1 = new PlayerId("1");
-	private static final PlayerId PLAYER_ID_2 = new PlayerId("2");
+	private static final PlayerId ANY_PLAYER_ID = new PlayerId("1");
 	
 	private GameFinalScore gameScore;
 	
 	@BeforeMethod
 	public void createGameScore() {
-		Players players = new Players();
-		players.add(HumanPlayer.withId(PLAYER_ID_1));
-		players.add(HumanPlayer.withId(PLAYER_ID_2));
-		
-		gameScore = new GameFinalScore(players);
+		gameScore = new GameFinalScore();
 	}
 	
 	@Test
-	public void shouldProvideScoreOfExistingPlayer() {
+	public void shouldProvidePlayersScore() {
 		// when
-		int score = gameScore.of(PLAYER_ID_1);
+		int score = gameScore.of(ANY_PLAYER_ID);
 		
 		// then
 		assertThat(score).isEqualTo(0);
 	}
 	
 	@Test
-	public void shouldIncreaseScoreOfExistingPlayer() {
+	public void shouldIncreasePlayersScore() {
 		// when
-		gameScore.increaseScoreForPlayer(PLAYER_ID_1);
-		int score = gameScore.of(PLAYER_ID_1);
+		gameScore.increaseScoreForPlayer(ANY_PLAYER_ID);
+		int score = gameScore.of(ANY_PLAYER_ID);
 		
 		// then
 		assertThat(score).isEqualTo(1);
-	}
-	
-	@Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "No such player in the game")
-	public void shouldThrowExceptionOnAttemptToGetScoreOfNonExistingPlayer() {
-		// when
-		gameScore.of(new PlayerId("123"));
 	}
 	
 }

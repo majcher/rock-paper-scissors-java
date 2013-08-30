@@ -23,10 +23,10 @@ import pl.mmajcherski.rps.domain.player.Players;
 public class GestureGame implements PlayerGestureListener, Runnable {
 
 	private final GameConfiguration configuration;
-
 	private final Players players = new Players();
 	private final Map<PlayerId, Gesture> playerGestures = new ConcurrentHashMap<>();
 	private final AtomicInteger currentPlay = new AtomicInteger(0);
+	
 	private GameFinalScore gameScore;
 	private ExecutorService executor;
 	
@@ -40,7 +40,6 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 		requireNonNull(configuration, "Game configuration not provided");
 		
 		this.configuration = configuration;
-		this.gameScore = new GameFinalScore(players);
 	}
 	
 	public void add(Player player) {
@@ -70,7 +69,7 @@ public class GestureGame implements PlayerGestureListener, Runnable {
 	
 	private void resetGame() {
 		currentPlay.set(0);
-		gameScore = new GameFinalScore(players);
+		gameScore = new GameFinalScore();
 		executor = Executors.newSingleThreadExecutor();
 	}
 	
