@@ -1,10 +1,10 @@
 package pl.mmajcherski.rps.ui.component;
 
-import javax.swing.JFrame;
-
 import pl.mmajcherski.rps.ui.GameMode;
 import pl.mmajcherski.rps.ui.GestureGameController;
 import pl.mmajcherski.rps.ui.component.menu.GameMenuBar;
+
+import javax.swing.*;
 
 public class GameMainFrame extends JFrame {
 
@@ -18,9 +18,9 @@ public class GameMainFrame extends JFrame {
 
 	public GameMainFrame() {
 		setTitle(GAME_NAME);
-		setSize(700, 300);
+		setSize(800, 300);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
 		setJMenuBar(new GameMenuBar(this));
 
